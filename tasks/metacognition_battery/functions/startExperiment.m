@@ -34,7 +34,7 @@ if stage == 1
         if strcmp(currentFile,d(i).name)
             disp(' ')
             disp(' ')
-            disp('This subjectID / stage combination is already taken! Please use a different subject ID.');
+            disp('该被试编号与阶段的组合已存在！请使用新的被试编号。');
             disp(' ')
             disp(' ')
 
@@ -67,7 +67,7 @@ elseif stage == 2
     if ~did_stage1
         disp(' ')
         disp(' ')
-        disp('You entered stage 2, but there is no stage 1 data for this subject ID! exiting program.')
+        disp('你选择了阶段 2，但该被试编号没有阶段 1 数据！程序将退出。')
         disp(' ')
         disp(' ')
 

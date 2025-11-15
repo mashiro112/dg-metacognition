@@ -18,14 +18,14 @@ for i =1:lengthList
     
     
     Screen('TextSize',p.window,p.textSize);
-    DrawFormattedText(p.window, 'Are you familiar with this country?', 'center', 150, p.textColor);
-    DrawFormattedText(p.window, 'YES', p.screenXpixels .* .25, p.textYpos + 50, p.textColor);
-    DrawFormattedText(p.window, 'NO', p.screenXpixels .* .75, p.textYpos + 50, p.textColor);
+    DrawUTF8(p.window, '你熟悉这个国家吗？', 'center', 150, p.textColor);
+    DrawUTF8(p.window, '是', p.screenXpixels .* .25, p.textYpos + 50, p.textColor);
+    DrawUTF8(p.window, '否', p.screenXpixels .* .75, p.textYpos + 50, p.textColor);
     Screen('FrameRect', p.window, p.gray, p.framePos_center, 50);
     Screen('DrawTexture', p.window, flag, [], p.imPos_center);
     
     Screen('TextSize',p.window,p.textSize);
-    DrawFormattedText(p.window, country_name, 'center', p.textYPosfam, p.textColor);
+    DrawUTF8(p.window, country_name, 'center', p.textYPosfam, p.textColor);
     
     t = Screen(p.window, 'Flip');
     
@@ -48,20 +48,20 @@ for i =1:lengthList
     
     
     Screen('TextSize',p.window,p.textSize);
-    DrawFormattedText(p.window, 'Are you familiar with this country?', 'center', 150, p.textColor);
-    DrawFormattedText(p.window, 'YES', p.screenXpixels .* .25, p.textYpos + 50, p.textColor);
-    DrawFormattedText(p.window, 'NO', p.screenXpixels .* .75, p.textYpos + 50, p.textColor);
+    DrawUTF8(p.window, '你熟悉这个国家吗？', 'center', 150, p.textColor);
+    DrawUTF8(p.window, '是', p.screenXpixels .* .25, p.textYpos + 50, p.textColor);
+    DrawUTF8(p.window, '否', p.screenXpixels .* .75, p.textYpos + 50, p.textColor);
     Screen('FrameRect', p.window, p.gray, p.framePos_center, 50);
     Screen('DrawTexture', p.window, flag, [], p.imPos_center);
     
     Screen('TextSize',p.window,p.textSize);
-    DrawFormattedText(p.window, country_name, 'center', p.textYPosfam, p.textColor);
+    DrawUTF8(p.window, country_name, 'center', p.textYPosfam, p.textColor);
     
     Screen('TextSize',p.window,48);
     if strcmp(response, 'LeftArrow')
-        DrawFormattedText(p.window,'*', p.screenXpixels .* .25, p.screenYpixels - 80, p.textColor);
+        DrawUTF8(p.window,'*', p.screenXpixels .* .25, p.screenYpixels - 80, p.textColor);
     elseif strcmp(response, 'RightArrow')
-        DrawFormattedText(p.window,'*', p.screenXpixels .* .75,p.screenYpixels - 80, p.textColor);
+        DrawUTF8(p.window,'*', p.screenXpixels .* .75,p.screenYpixels - 80, p.textColor);
     end
     Screen(p.window, 'Flip');
     WaitSecs(0.4);

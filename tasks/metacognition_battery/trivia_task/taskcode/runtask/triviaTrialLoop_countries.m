@@ -38,15 +38,15 @@ textYpos = p.yCenter + 200;
 
 % startTime = GetSecs();
 Screen('TextSize',p.window,40);
-DrawFormattedText(p.window, 'Which country is the highest area surface?', 'center', 150, p.textColor);
+DrawUTF8(p.window, '你认为哪个国家的面积更大？', 'center', 150, p.textColor);
 Screen('DrawTexture', p.window, im_left, [], imPos_left);
 Screen('DrawTexture', p.window, im_right, [], imPos_right);
 Screen('TextSize',p.window,p.countriesTextSize);
-DrawFormattedText(p.window, word_left, textXpos_left, textYpos, p.textColor);
-DrawFormattedText(p.window, word_right,textXpos_right, textYpos, p.textColor);
+DrawUTF8(p.window, word_left, textXpos_left, textYpos, p.textColor);
+DrawUTF8(p.window, word_right,textXpos_right, textYpos, p.textColor);
 
 Screen('TextSize',p.window,40);
-DrawFormattedText(p.window, '+', p.xCenter, p.yCenter + 50, p.textColor);
+DrawUTF8(p.window, '+', p.xCenter, p.yCenter + 50, p.textColor);
 t = Screen(p.window, 'Flip');
 
 FlushEvents;
@@ -67,21 +67,21 @@ FlushEvents;
 response = KbName(keyCode);
 
 Screen('TextSize',p.window,40);  
-DrawFormattedText(p.window, 'Which country is the highest area surface?', 'center', 150, p.textColor);
+DrawUTF8(p.window, '你认为哪个国家的面积更大？', 'center', 150, p.textColor);
 Screen('DrawTexture', p.window, im_left, [], imPos_left);
 Screen('DrawTexture', p.window, im_right, [], imPos_right);
 Screen('TextSize',p.window,p.countriesTextSize);
-DrawFormattedText(p.window, word_left, textXpos_left, textYpos, p.textColor);
-DrawFormattedText(p.window, word_right, textXpos_right, textYpos, p.textColor);
+DrawUTF8(p.window, word_left, textXpos_left, textYpos, p.textColor);
+DrawUTF8(p.window, word_right, textXpos_right, textYpos, p.textColor);
 
 Screen('TextSize',p.window,40);
-DrawFormattedText(p.window, '+', p.xCenter, p.yCenter + 50, p.textColor);
+DrawUTF8(p.window, '+', p.xCenter, p.yCenter + 50, p.textColor);
 
 Screen('TextSize',p.window,48);
 if strcmp(response, 'LeftArrow')
-    DrawFormattedText(p.window,'*', p.xCenter - 400, p.yCenter+250, p.textColor);
+    DrawUTF8(p.window,'*', p.xCenter - 400, p.yCenter+250, p.textColor);
 elseif strcmp(response, 'RightArrow')
-    DrawFormattedText(p.window,'*', p.xCenter + 350, p.yCenter+250, p.textColor); 
+    DrawUTF8(p.window,'*', p.xCenter + 350, p.yCenter+250, p.textColor); 
 end
 Screen(p.window, 'Flip');
 WaitSecs(0.75);
@@ -115,21 +115,21 @@ if feedback ==1
 Screen('TextSize',p.window,40);
 if responseNum == 1
     if correct == 1
-        DrawFormattedText(p.window, 'Correct!', 'center', 'Center', p.textColor);
+        DrawUTF8(p.window, '回答正确！', 'center', 'Center', p.textColor);
         Screen(p.window, 'Flip');
         WaitSecs(1);
     elseif correct == 0
-        DrawFormattedText(p.window, 'Not correct', 'center', 'Center', p.textColor);
+        DrawUTF8(p.window, '回答错误', 'center', 'Center', p.textColor);
         Screen(p.window, 'Flip');
         WaitSecs(1);
     end
 elseif responseNum == 2
     if countries_1_pos > countries_2_pos
-        DrawFormattedText(p.window, 'Correct!', 'center', 'Center', p.textColor);
+        DrawUTF8(p.window, '回答正确！', 'center', 'Center', p.textColor);
         Screen(p.window, 'Flip');
         WaitSecs(1);
     elseif countries_1_pos < countries_2_pos
-        DrawFormattedText(p.window, 'Not correct', 'center', 'Center', p.textColor);
+        DrawUTF8(p.window, '回答错误', 'center', 'Center', p.textColor);
         Screen(p.window, 'Flip');
         WaitSecs(1);
     end

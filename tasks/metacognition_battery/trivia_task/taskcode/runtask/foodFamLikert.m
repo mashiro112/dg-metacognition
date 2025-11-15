@@ -16,16 +16,16 @@ for i =1:lengthList
     
     
     Screen('TextSize',p.window,p.textSize);
-    DrawFormattedText(p.window, 'How familiar are you with this food?', 'center', 150, p.textColor);
-    DrawFormattedText(p.window, 'Not at all', p.screenXpixels .* 1/5, p.textYpos + 50, p.textColor);
-    DrawFormattedText(p.window, 'A little', p.screenXpixels .* 2/5, p.textYpos + 50, p.textColor);
-    DrawFormattedText(p.window, 'Moderately', p.screenXpixels .* 3/5, p.textYpos + 50, p.textColor);
-    DrawFormattedText(p.window, 'Very', p.screenXpixels .* 4/5, p.textYpos + 50, p.textColor);   
+    DrawUTF8(p.window, '你对这种食物有多熟悉？', 'center', 150, p.textColor);
+    DrawUTF8(p.window, '完全不熟悉', p.screenXpixels .* 1/5, p.textYpos + 50, p.textColor);
+    DrawUTF8(p.window, '稍微熟悉', p.screenXpixels .* 2/5, p.textYpos + 50, p.textColor);
+    DrawUTF8(p.window, '一般熟悉', p.screenXpixels .* 3/5, p.textYpos + 50, p.textColor);
+    DrawUTF8(p.window, '非常熟悉', p.screenXpixels .* 4/5, p.textYpos + 50, p.textColor);   
    
-    DrawFormattedText(p.window, '1', p.screenXpixels .* 1/5 + 40, p.textYpos + 90, p.textColor);
-    DrawFormattedText(p.window, '2', p.screenXpixels .* 2/5 + 40, p.textYpos + 90, p.textColor);
-    DrawFormattedText(p.window, '3', p.screenXpixels .* 3/5 + 40, p.textYpos + 90, p.textColor);
-    DrawFormattedText(p.window, '4', p.screenXpixels .* 4/5 + 40, p.textYpos + 90, p.textColor);
+    DrawUTF8(p.window, '1', p.screenXpixels .* 1/5 + 40, p.textYpos + 90, p.textColor);
+    DrawUTF8(p.window, '2', p.screenXpixels .* 2/5 + 40, p.textYpos + 90, p.textColor);
+    DrawUTF8(p.window, '3', p.screenXpixels .* 3/5 + 40, p.textYpos + 90, p.textColor);
+    DrawUTF8(p.window, '4', p.screenXpixels .* 4/5 + 40, p.textYpos + 90, p.textColor);
     
     
     
@@ -34,7 +34,7 @@ for i =1:lengthList
     Screen('DrawTexture', p.window, food, [], p.imPos_center);
     
     Screen('TextSize',p.window,p.textSize);
-    DrawFormattedText(p.window, food_name, 'center', p.textYPosfam, p.textColor);
+    DrawUTF8(p.window, food_name, 'center', p.textYPosfam, p.textColor);
     
     t = Screen(p.window, 'Flip');
     
@@ -57,35 +57,35 @@ for i =1:lengthList
     
     
     Screen('TextSize',p.window,p.textSize);
-    DrawFormattedText(p.window, 'How familiar are you with this food?', 'center', 150, p.textColor);
-    DrawFormattedText(p.window, 'Not at all', p.screenXpixels .* 1/5, p.textYpos + 50, p.textColor);
-    DrawFormattedText(p.window, 'A little', p.screenXpixels .* 2/5, p.textYpos + 50, p.textColor);
-    DrawFormattedText(p.window, 'Moderately', p.screenXpixels .* 3/5, p.textYpos + 50, p.textColor);
-    DrawFormattedText(p.window, 'Very', p.screenXpixels .* 4/5, p.textYpos + 50, p.textColor);
+    DrawUTF8(p.window, '你对这种食物有多熟悉？', 'center', 150, p.textColor);
+    DrawUTF8(p.window, '完全不熟悉', p.screenXpixels .* 1/5, p.textYpos + 50, p.textColor);
+    DrawUTF8(p.window, '稍微熟悉', p.screenXpixels .* 2/5, p.textYpos + 50, p.textColor);
+    DrawUTF8(p.window, '一般熟悉', p.screenXpixels .* 3/5, p.textYpos + 50, p.textColor);
+    DrawUTF8(p.window, '非常熟悉', p.screenXpixels .* 4/5, p.textYpos + 50, p.textColor);
     
-    DrawFormattedText(p.window, '1', p.screenXpixels .* 1/5 + 40, p.textYpos + 90, p.textColor);
-    DrawFormattedText(p.window, '2', p.screenXpixels .* 2/5 + 40, p.textYpos + 90, p.textColor);
-    DrawFormattedText(p.window, '3', p.screenXpixels .* 3/5 + 40, p.textYpos + 90, p.textColor);
-    DrawFormattedText(p.window, '4', p.screenXpixels .* 4/5 + 40, p.textYpos + 90, p.textColor);
+    DrawUTF8(p.window, '1', p.screenXpixels .* 1/5 + 40, p.textYpos + 90, p.textColor);
+    DrawUTF8(p.window, '2', p.screenXpixels .* 2/5 + 40, p.textYpos + 90, p.textColor);
+    DrawUTF8(p.window, '3', p.screenXpixels .* 3/5 + 40, p.textYpos + 90, p.textColor);
+    DrawUTF8(p.window, '4', p.screenXpixels .* 4/5 + 40, p.textYpos + 90, p.textColor);
     
     Screen('FrameRect', p.window, p.gray, p.framePos_center, 50);
     Screen('DrawTexture', p.window, food, [], p.imPos_center);
     
     Screen('TextSize',p.window,p.textSize);
-    DrawFormattedText(p.window, food_name, 'center', p.textYPosfam, p.textColor);
+    DrawUTF8(p.window, food_name, 'center', p.textYPosfam, p.textColor);
     
     Screen('TextSize',p.window,48);
     if strcmp(response, '1!')
-        DrawFormattedText(p.window,'*', p.screenXpixels .* 1/5 + 30, p.screenYpixels - 60, p.textColor);
+        DrawUTF8(p.window,'*', p.screenXpixels .* 1/5 + 30, p.screenYpixels - 60, p.textColor);
         answer = 1;
     elseif strcmp(response, '2@')
-        DrawFormattedText(p.window,'*', p.screenXpixels .* 2/5 + 30,p.screenYpixels - 60, p.textColor);
+        DrawUTF8(p.window,'*', p.screenXpixels .* 2/5 + 30,p.screenYpixels - 60, p.textColor);
         answer = 2;
     elseif strcmp(response, '3#')
-        DrawFormattedText(p.window,'*', p.screenXpixels .* 3/5 + 30, p.screenYpixels - 60, p.textColor);
+        DrawUTF8(p.window,'*', p.screenXpixels .* 3/5 + 30, p.screenYpixels - 60, p.textColor);
         answer = 3;
     elseif strcmp(response, '4$')
-        DrawFormattedText(p.window,'*', p.screenXpixels .* 4/5 + 30,p.screenYpixels - 60, p.textColor);
+        DrawUTF8(p.window,'*', p.screenXpixels .* 4/5 + 30,p.screenYpixels - 60, p.textColor);
         answer = 4;
     end
     Screen(p.window, 'Flip');

@@ -1,4 +1,4 @@
-function startData = startExperiment(experimentName)
+function startData = startExperiment(experimentName, subID, inStage)
 
 
 
@@ -7,22 +7,15 @@ disp([pwd ' ...'])
 disp(' ')
 
 if IsWin
-    dataDir = [pwd '\data\'];
+    dataDir = [pwd '\gfcData\'];
 else
-    dataDir = [pwd '/data/'];
+    dataDir = [pwd '/gfcData/'];
 end
 
-% get distance from screen
-distFromScreen_inCm = input('Enter distance from screen in cm:   ');
 
+subjectID = subID{1};
 
-subjectID = input('subjectID?   ','s');
-
-stage = 0;
-while ~(stage==1 || stage==2)
-    stage = input('What stage? (1 or 2):   ');
-end
-
+stage = inStage;
 
 %% check stage 1 
 % if stage is 1,
@@ -41,7 +34,7 @@ if stage == 1
         if strcmp(currentFile,d(i).name)
             disp(' ')
             disp(' ')
-            disp('This subjectID / stage combination is already taken! Please use a different subject ID.');
+            disp('该被试编号与阶段的组合已存在！请使用新的被试编号。');
             disp(' ')
             disp(' ')
 
@@ -50,6 +43,8 @@ if stage == 1
 
     end
 
+    startData.isTaken = isTaken;
+    startData.did_stage1 = 1;
     if isTaken, return, end
 
 %% check stage 2
@@ -72,12 +67,14 @@ elseif stage == 2
     if ~did_stage1
         disp(' ')
         disp(' ')
-        disp('You entered stage 2, but there is no stage 1 data for this subject ID! exiting program.')
+        disp('你选择了阶段 2，但该被试编号没有阶段 1 数据！程序将退出。')
         disp(' ')
         disp(' ')
 
     end
 
+    startData.isTaken = 0;
+    startData.did_stage1 = did_stage1;
     if ~did_stage1, return, end
 
 
@@ -106,13 +103,13 @@ end
 
 
 % get condition
-if stage==1
-    cond = '';
-    while ~(strcmp(cond,'A') || strcmp(cond,'B'))
-        cond = input('What cond? (A or B):   ','s');
-    end
-    startData.cond = cond;
-end
+% if stage==1
+%     cond = '';
+%     while ~(strcmp(cond,'A') || strcmp(cond,'B'))
+%         cond = input('What cond? (A or B):   ','s');
+%     end
+%     startData.cond = cond;
+% end
 
 
 % load contrast
@@ -127,7 +124,6 @@ dataFile = [dataDir currentFile];
 
 startData.dataDir             = dataDir;
 startData.dataFile            = dataFile;
-startData.distFromScreen_inCm = distFromScreen_inCm;
 startData.startupTime         = startupTime;
 startData.subjectID           = subjectID;
 startData.stage               = stage;

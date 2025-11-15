@@ -36,7 +36,7 @@ d = dir(dataDir);
 
 for i = 1:length(d)
     if strcmp(p.filename,d(i).name)
-        disp('This subjectID / day combination is already taken! Please use a different subject ID.');
+        disp('该被试编号与日期的组合已存在！请使用新的被试编号。');
         p.isTaken = 1;
         return
     end
@@ -81,7 +81,7 @@ p.studyListOrder6 = [2 5 8 11 14 17];
 
 p.listGroup = 0;
 while (p.listGroup < 1 || p.listGroup > 6)
-    p.listGroup = inputdlg('Please Enter Subject Group (1-6)','List Group');
+    p.listGroup = inputdlg('请输入被试分组 (1-6)','分组编号');
     p.listGroup = str2num(p.listGroup{1});
 end
 eval(['p.studyListOrder = p.studyListOrder' num2str(p.listGroup) '([1 2 3 4 5 6]);']);

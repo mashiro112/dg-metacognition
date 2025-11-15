@@ -6,7 +6,7 @@ function p = perceptGetParams(sID)
 %% Subject parameters
 
 if nargin < 1
-    p.subID = inputdlg('Please Enter SubjectID','SubjectID');
+    p.subID = inputdlg('请输入被试编号','被试编号');
 else
     p.subID = sID;
 end

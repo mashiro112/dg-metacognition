@@ -10,7 +10,7 @@ if exist('fontNameOrNumber','var') && ~isempty(fontNameOrNumber)
 end
 
 % draw text to back buffer and convert it to a texture
-DrawFormattedText(window,textString);
+DrawUTF8(window,textString);
 textMatrix = Screen('GetImage',window,[],'backBuffer',[],1);
 textMatrix = trimMatrixBorders(textMatrix);
 

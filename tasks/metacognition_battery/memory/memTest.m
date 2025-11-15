@@ -44,7 +44,7 @@ fixCrossWhite = Screen('MakeTexture', wPtr, m.FixCrW);
 %% Do some practice trials
 if roundNum == 1
     Screen('TextSize',wPtr,24);
-    DrawFormattedText(wPtr, 'Press any key to see a practice example...', 'center', 'center', m.textColor, [], [], [], 1.5);
+    DrawUTF8(wPtr, '按任意键查看练习示例…', 'center', 'center', m.textColor, [], [], [], 1.5);
     studyStart = Screen('Flip', wPtr);
     KbWait;
     
@@ -54,8 +54,8 @@ if roundNum == 1
         
         sidechoice = randperm(2);
         
-        DrawFormattedText(wPtr,practiceWords{j}, positions(sidechoice(1)), 'center', m.textColor);
-        DrawFormattedText(wPtr,practiceWords{j+1}, positions(sidechoice(2)), 'center', m.textColor);
+        DrawUTF8(wPtr,practiceWords{j}, positions(sidechoice(1)), 'center', m.textColor);
+        DrawUTF8(wPtr,practiceWords{j+1}, positions(sidechoice(2)), 'center', m.textColor);
         
         Screen('DrawTexture', wPtr, fixCrossBlack,[],[mx-10,my-10,mx+10,my+10]);
         vbl = Screen('Flip',wPtr);
@@ -72,15 +72,15 @@ if roundNum == 1
         rt = respTime - vbl;
         
         % show confirmation of response
-        DrawFormattedText(wPtr,practiceWords{j}, positions(sidechoice(1)), 'center', m.textColor);
-        DrawFormattedText(wPtr,practiceWords{j+1}, positions(sidechoice(2)), 'center', m.textColor);
+        DrawUTF8(wPtr,practiceWords{j}, positions(sidechoice(1)), 'center', m.textColor);
+        DrawUTF8(wPtr,practiceWords{j+1}, positions(sidechoice(2)), 'center', m.textColor);
         Screen('DrawTexture', wPtr, fixCrossBlack,[],[mx-10,my-10,mx+10,my+10]);
         
         Screen('TextSize',wPtr,48);
         if strcmp(response, 'LeftArrow')
-            DrawFormattedText(wPtr,'*', positions(1), my-100, m.textColor);
+            DrawUTF8(wPtr,'*', positions(1), my-100, m.textColor);
         elseif strcmp(response, 'RightArrow')
-            DrawFormattedText(wPtr,'*', positions(2), my-100, m.textColor);
+            DrawUTF8(wPtr,'*', positions(2), my-100, m.textColor);
         end
         Screen('TextSize',wPtr,24);
         vbl = Screen('Flip',wPtr);
@@ -92,7 +92,7 @@ if roundNum == 1
             [conf RT] = collectConfidenceDiscrete(wPtr,p);
             
         else
-            DrawFormattedText(wPtr,'No response!','center','center');
+            DrawUTF8(wPtr,'未作答！','center','center');
             Screen('Flip',wPtr);
             pause(p.confFBDuration_inSecs + p.confDuration_inSecs);
             
@@ -105,35 +105,35 @@ end
 % Get ready to see the display
 Screen('TextSize',wPtr,24);
 if roundNum == 1
-    DrawFormattedText(wPtr, 'We will now show you the first list of words to study...', 'center', my-200, m.textColor, [], [], [], 1.5);
+    DrawUTF8(wPtr, '接下来请学习第一组单词……', 'center', my-200, m.textColor, [], [], [], 1.5);
 else
-    DrawFormattedText(wPtr, 'We will now show you the next list of words to study...', 'center', my-200, m.textColor, [], [], [], 1.5);
+    DrawUTF8(wPtr, '接下来请学习下一组单词……', 'center', my-200, m.textColor, [], [], [], 1.5);
 end
-DrawFormattedText(wPtr, 'Press any key to start studying!', 'center', 'center', m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr, '按任意键开始学习！', 'center', 'center', m.textColor, [], [], [], 1.5);
 studyStart = Screen('Flip', wPtr);
 KbWait;
 
 %display list to study
-DrawFormattedText(wPtr,m.studyListDisplay1, mx-450, 'center', m.textColor, [], [], [], 1.5);
-DrawFormattedText(wPtr,m.studyListDisplay2, mx-250, 'center', m.textColor, [], [], [], 1.5);
-DrawFormattedText(wPtr,m.studyListDisplay3, mx-50, 'center', m.textColor, [], [], [], 1.5);
-DrawFormattedText(wPtr,m.studyListDisplay4, mx+150, 'center', m.textColor, [], [], [], 1.5);
-DrawFormattedText(wPtr,m.studyListDisplay5, mx+350, 'center', m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr,m.studyListDisplay1, mx-450, 'center', m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr,m.studyListDisplay2, mx-250, 'center', m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr,m.studyListDisplay3, mx-50, 'center', m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr,m.studyListDisplay4, mx+150, 'center', m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr,m.studyListDisplay5, mx+350, 'center', m.textColor, [], [], [], 1.5);
 studyStart = Screen('Flip', wPtr);
 disp(studyStart);
 disp(studyTime);
 disp(studyStart + (studyTime - 10));
 %WaitSecs(studyTime - 10);
-DrawFormattedText(wPtr,m.studyListDisplay1, mx-450, 'center', m.textColor, [], [], [], 1.5);
-DrawFormattedText(wPtr,m.studyListDisplay2, mx-250, 'center', m.textColor, [], [], [], 1.5);
-DrawFormattedText(wPtr,m.studyListDisplay3, mx-50, 'center', m.textColor, [], [], [], 1.5);
-DrawFormattedText(wPtr,m.studyListDisplay4, mx+150, 'center', m.textColor, [], [], [], 1.5);
-DrawFormattedText(wPtr,m.studyListDisplay5, mx+350, 'center', m.textColor, [], [], [], 1.5);
-DrawFormattedText(wPtr,'10 seconds left...', 'center', my*2 - 200, m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr,m.studyListDisplay1, mx-450, 'center', m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr,m.studyListDisplay2, mx-250, 'center', m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr,m.studyListDisplay3, mx-50, 'center', m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr,m.studyListDisplay4, mx+150, 'center', m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr,m.studyListDisplay5, mx+350, 'center', m.textColor, [], [], [], 1.5);
+DrawUTF8(wPtr,'还剩 10 秒……', 'center', my*2 - 200, m.textColor, [], [], [], 1.5);
 thirtySecsLeft = Screen('Flip', wPtr, studyStart + (studyTime - 10));
 %WaitSecs(10);
 
-DrawFormattedText(wPtr,m.instructions2, 'center', 'center', m.textColor);
+DrawUTF8(wPtr,m.instructions2, 'center', 'center', m.textColor);
 Screen('Flip', wPtr, thirtySecsLeft + 10);
 KbWait;
 
@@ -141,8 +141,8 @@ for i = 1:size(m.wordLists,1)
     
     sidechoice = randperm(2);
     
-    DrawFormattedText(wPtr,results.studiedWordList{i}, positions(sidechoice(1)), 'center', m.textColor);
-    DrawFormattedText(wPtr,results.unstudiedWordList{i}, positions(sidechoice(2)), 'center', m.textColor);
+    DrawUTF8(wPtr,results.studiedWordList{i}, positions(sidechoice(1)), 'center', m.textColor);
+    DrawUTF8(wPtr,results.unstudiedWordList{i}, positions(sidechoice(2)), 'center', m.textColor);
     Screen('DrawTexture', wPtr, fixCrossBlack,[],[mx-10,my-10,mx+10,my+10]);
     vbl = Screen('Flip',wPtr);
     
@@ -161,15 +161,15 @@ for i = 1:size(m.wordLists,1)
     rt = respTime - vbl;
     
     % show confirmation of response
-    DrawFormattedText(wPtr,results.studiedWordList{i}, positions(sidechoice(1)), 'center', m.textColor);
-    DrawFormattedText(wPtr,results.unstudiedWordList{i}, positions(sidechoice(2)), 'center', m.textColor);
+    DrawUTF8(wPtr,results.studiedWordList{i}, positions(sidechoice(1)), 'center', m.textColor);
+    DrawUTF8(wPtr,results.unstudiedWordList{i}, positions(sidechoice(2)), 'center', m.textColor);
     Screen('DrawTexture', wPtr, fixCrossBlack,[],[mx-10,my-10,mx+10,my+10]);
     
     Screen('TextSize',wPtr,48);
     if strcmp(response, 'LeftArrow')
-        DrawFormattedText(wPtr,'*', positions(1), my-100, m.textColor);
+        DrawUTF8(wPtr,'*', positions(1), my-100, m.textColor);
     elseif strcmp(response, 'RightArrow')
-        DrawFormattedText(wPtr,'*', positions(2), my-100, m.textColor);
+        DrawUTF8(wPtr,'*', positions(2), my-100, m.textColor);
     end
     Screen('TextSize',wPtr,24);
     vbl = Screen('Flip',wPtr);
@@ -190,7 +190,7 @@ for i = 1:size(m.wordLists,1)
         results.responseConf(i) = conf;
         results.rtConf(i) = RT;
     else
-        DrawFormattedText(wPtr,'No response!','center','center');
+        DrawUTF8(wPtr,'未作答！','center','center');
         Screen('Flip',wPtr);
         pause(p.confFBDuration_inSecs + p.confDuration_inSecs);
         
@@ -199,8 +199,8 @@ for i = 1:size(m.wordLists,1)
     end
 %     
 %     if i == size(m.wordLists,1)/2   % give a break halfway through
-%         DrawFormattedText(wPtr, 'Please take a break!', 'center', my-150, m.textColor, [], [], [], 1.5);
-%         DrawFormattedText(wPtr, 'Press any key to answer the remaining questions on this list...', 'center', 'center', m.textColor, [], [], [], 1.5);
+%         DrawUTF8(wPtr, '请稍作休息！', 'center', my-150, m.textColor, [], [], [], 1.5);
+%         DrawUTF8(wPtr, '按任意键回答本列表剩余的问题……', 'center', 'center', m.textColor, [], [], [], 1.5);
 %         Screen('Flip', wPtr);
 %         KbWait;
 %     end

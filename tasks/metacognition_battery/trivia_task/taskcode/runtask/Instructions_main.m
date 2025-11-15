@@ -15,21 +15,21 @@ word_left = char(word_left);
 word_right = char(word_right);
 
 Screen('TextSize',p.window,p.textSize);
-DrawFormattedText(p.window,['In this task you will see the pictures and names of two countries, as shown below.'...
-    '\n\n In each trial we will ask you to choose which one has the highest population'],...
+DrawUTF8(p.window,['在本任务中，你将看到两个国家的图片和名称，如下所示。'...
+    '\n\n每一试次请判断哪个国家的人口更多。'],...
     'center',p.screenYpixels * 0.15, p.textColor);
 Screen('DrawTexture', p.window, im_left, [], p.imPos_left);
 Screen('DrawTexture', p.window, im_right, [], p.imPos_right);
 Screen('TextSize',p.window,p.countriesTextSize);
-DrawFormattedText(p.window, word_left, p.textXpos_left, p.textYpos, p.textColor);
-DrawFormattedText(p.window, word_right,p.textXpos_right, p.textYpos, p.textColor);
+DrawUTF8(p.window, word_left, p.textXpos_left, p.textYpos, p.textColor);
+DrawUTF8(p.window, word_right,p.textXpos_right, p.textYpos, p.textColor);
 
 Screen('TextSize',p.window,40);
-DrawFormattedText(p.window, '+', p.xCenter, p.yCenter + 50, p.textColor);
+DrawUTF8(p.window, '+', p.xCenter, p.yCenter + 50, p.textColor);
 
 WaitSecs(3);
 Screen('TextSize',p.window,20);
-DrawFormattedText(p.window,'Press any key to continue ...',...
+DrawUTF8(p.window,'按任意键继续……',...
     p.screenXpixels - 300,p.screenYpixels * 0.90, p.textColor);
 
 Screen(p.window, 'Flip');
@@ -39,18 +39,18 @@ WaitSecs(2);
 KbWait;
 
 Screen('TextSize',p.window,p.textSize);
-DrawFormattedText(p.window,'To practice, please press now the left or the right arrow to make your selection.',...
+DrawUTF8(p.window,'现在请按下左箭头或右箭头进行练习选择。',...
     'center',p.screenYpixels * 0.15, p.textColor);
-DrawFormattedText(p.window,'Which countries do you think has the highest population?',...
+DrawUTF8(p.window,'你认为哪个国家的人口更多？',...
     'center',p.screenYpixels * 0.25, p.textColor);
 Screen('DrawTexture', p.window, im_left, [], p.imPos_left);
 Screen('DrawTexture', p.window, im_right, [], p.imPos_right);
 Screen('TextSize',p.window,p.countriesTextSize);
-DrawFormattedText(p.window, word_left, p.textXpos_left, p.textYpos, p.textColor);
-DrawFormattedText(p.window, word_right,p.textXpos_right, p.textYpos, p.textColor);
+DrawUTF8(p.window, word_left, p.textXpos_left, p.textYpos, p.textColor);
+DrawUTF8(p.window, word_right,p.textXpos_right, p.textYpos, p.textColor);
 
 Screen('TextSize',p.window,40);
-DrawFormattedText(p.window, '+', p.xCenter, p.yCenter + 50, p.textColor);
+DrawUTF8(p.window, '+', p.xCenter, p.yCenter + 50, p.textColor);
 
 Screen('Flip', p.window);
 WaitSecs(1);
@@ -72,25 +72,25 @@ FlushEvents;
 response = KbName(keyCode);
 
 Screen('TextSize',p.window,p.textSize);
-DrawFormattedText(p.window,'To practice, please press now the left or the right arrow to make your selection.',...
+DrawUTF8(p.window,'现在请按下左箭头或右箭头进行练习选择。',...
     'center',p.screenYpixels * 0.15, p.textColor);
-DrawFormattedText(p.window,'Which countries do you think has the highest population?',...
+DrawUTF8(p.window,'你认为哪个国家的人口更多？',...
     'center',p.screenYpixels * 0.25, p.textColor);
 Screen('DrawTexture', p.window, im_left, [], p.imPos_left);
 Screen('DrawTexture', p.window, im_right, [], p.imPos_right);
 Screen('TextSize',p.window,p.countriesTextSize);
-DrawFormattedText(p.window, word_left, p.textXpos_left, p.textYpos, p.textColor);
-DrawFormattedText(p.window, word_right,p.textXpos_right, p.textYpos, p.textColor);
+DrawUTF8(p.window, word_left, p.textXpos_left, p.textYpos, p.textColor);
+DrawUTF8(p.window, word_right,p.textXpos_right, p.textYpos, p.textColor);
 
 Screen('TextSize',p.window,40);
-DrawFormattedText(p.window, '+', p.xCenter, p.yCenter + 50, p.textColor);
+DrawUTF8(p.window, '+', p.xCenter, p.yCenter + 50, p.textColor);
 
 Screen('TextSize',p.window,48);
 if strcmp(response, 'LeftArrow')
-    DrawFormattedText(p.window,'*', p.xCenter - 400, p.yCenter+250, p.textColor);
+    DrawUTF8(p.window,'*', p.xCenter - 400, p.yCenter+250, p.textColor);
     resp = 1;
 elseif strcmp(response, 'RightArrow')
-    DrawFormattedText(p.window,'*', p.xCenter + 350, p.yCenter+250, p.textColor); 
+    DrawUTF8(p.window,'*', p.xCenter + 350, p.yCenter+250, p.textColor); 
     resp = 2;
 end
 Screen(p.window, 'Flip');
@@ -100,12 +100,12 @@ WaitSecs(1.5);
 
 
 Screen('TextSize',p.window,p.textSize);
-DrawFormattedText(p.window,['Once you made your choice, we will ask you to rate' '\n \n how confident you feel about your decision''\n \n You should press the space bar to confirm it'],...
+DrawUTF8(p.window,['当你完成选择后，我们会请你评估自己对该决定的信心。' '\n \n 使用方向键选择，并按下空格键确认。'],...
     'center',p.screenYpixels * 0.40, p.textColor);
 
 
 Screen('TextSize',p.window,20);
-DrawFormattedText(p.window,'Press any key to continue ...',...
+DrawUTF8(p.window,'按任意键继续……',...
     p.screenXpixels - 300,p.screenYpixels * 0.90, p.textColor);
 
 Screen(p.window, 'Flip');
@@ -120,18 +120,18 @@ practice = 1;
 
 scaledXstr = num2str(scaledX);
 Screen('TextSize',p.window,p.textSize);
-DrawFormattedText(p.window,['You felt ' scaledXstr '% confident about your decision'],...
+DrawUTF8(p.window,['你觉得自己对该决定的信心为 ' scaledXstr '%'],...
     'center',p.screenYpixels * 0.45, p.textColor);
 if resp==1
-    DrawFormattedText(p.window,['And you were correct! London has a higher population than Paris.'],...
+    DrawUTF8(p.window,['你答对了！伦敦的人口多于巴黎。'],...
     'center',p.screenYpixels * 0.55, p.textColor);
 elseif resp==2
-    DrawFormattedText(p.window,['But you were not correct. London has a higher population than Paris.'],...
+    DrawUTF8(p.window,['很遗憾，这次不正确。伦敦的人口多于巴黎。'],...
     'center',p.screenYpixels * 0.55, p.textColor);
 end
 
 Screen('TextSize',p.window,20);
-DrawFormattedText(p.window,'Press any key to continue ...',...
+DrawUTF8(p.window,'按任意键继续……',...
     p.screenXpixels - 300,p.screenYpixels * 0.90, p.textColor);
 
 Screen(p.window, 'Flip');
@@ -142,9 +142,9 @@ KbWait;
 
 
 Screen('TextSize',p.window,p.textSize); 
-DrawFormattedText(p.window,['Get now ready to start the task!' '\n \n You will see one pair of countries after the other, and after each choice you make ' '\n you will be asked about your confidence.'...
-    '\n \n During the task you will not be given any feedback.'...
-    '\n \n If you have any questions, please ask one of the researchers.' '\n \n When you are ready, press any key to start.' '\n \n Good luck!'],...
+DrawUTF8(p.window,['现在准备开始正式任务！' '\n \n 屏幕会依次呈现一对对国家，每次选择后都需要报告你的信心程度。'...
+    '\n \n 在任务过程中不会提供正确答案反馈。'...
+    '\n \n 如果有任何疑问，请向实验员提问。' '\n \n 准备好后按任意键开始。' '\n \n 祝你好运！'],...
     'center',p.screenYpixels * 0.30, p.textColor);
 Screen(p.window, 'Flip');
 
