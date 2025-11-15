@@ -9,6 +9,10 @@ KbName('UnifyKeyNames');
 PsychJavaTrouble()      
 KbCheck;
 
+memDir = fileparts(mfilename('fullpath'));
+generalDir = fullfile(memDir, '..', 'general_functions');
+addpath(generalDir);
+
 if IsWin
     addpath([pwd '\functions']);
 else
@@ -43,6 +47,24 @@ else
 end
 
 [wPtr,rect]=Screen('OpenWindow',screenNum, p.bgColor, screenDim);
+
+Screen('Preference','TextRenderer', 1);
+Screen('Preference','TextEncodingLocale','UTF-8');
+
+try
+    fonts = Screen('Fonts');
+    font = 'Microsoft YaHei';
+    if ~any(strcmpi(fonts, font))
+        font = 'SimHei';
+    end
+catch
+    font = 'Microsoft YaHei';
+end
+
+Screen('TextFont',  wPtr, font);
+Screen('TextStyle', wPtr, 0);
+Screen('TextSize',  wPtr, 28);
+Screen('TextColor', wPtr, [255 255 255]);
 HideCursor;
 [p.midW p.midH] = getScreenMidpoint(wPtr);
 i = 1;

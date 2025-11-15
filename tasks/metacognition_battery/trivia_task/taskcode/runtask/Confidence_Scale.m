@@ -25,13 +25,13 @@ while 1
     
 % Text - top of the screen
 if ~practice
-   textLine =  ['How confident are you?'];
+   textLine =  ['现在的信心程度如何？'];
 elseif practice
-    textLine = ['Move the green dot using the left and right arrow and press left shift to confirm' '\n \n How confident are you?'];
+    textLine = ['使用左右方向键移动绿色圆点，并按下左 Shift 键确认' '\n \n 现在的信心程度如何？'];
 end     
    
 Screen('TextSize',p.window,40);    
-DrawFormattedText(p.window,textLine,'center',p.yCenter - 250,p.white);
+DrawUTF8(p.window,textLine,'center',p.yCenter - 250,p.white);
 
 
 % Static line - bottom
@@ -42,9 +42,9 @@ Screen('DrawLine', p.window, p.white, p.xCenter, buttomLine - 10, p.xCenter, but
 
 Screen('TextSize',p.window,30);
 % Text - bottom
-DrawFormattedText(p.window,'Very unsure',p.xCenter - 560,buttomLine + 60,p.white);
-% DrawFormattedText(p.window,'50% con','center',buttomLine + 60,p.white);
-DrawFormattedText(p.window,'Absolutely certain',p.xCenter + 470,buttomLine + 60,p.white);
+DrawUTF8(p.window,'非常不确定',p.xCenter - 560,buttomLine + 60,p.white);
+% DrawUTF8(p.window,'50% 信心','center',buttomLine + 60,p.white);
+DrawUTF8(p.window,'完全确定',p.xCenter + 470,buttomLine + 60,p.white);
 
 
 [keyIsDown, respSecs, keyCode] = KbCheck;
@@ -70,7 +70,7 @@ scaledX = mapfun(dotX, startLine, endLine, 1, 100);
 scaledX = fix(scaledX);
 
 % scaledXstr = num2str(scaledX);
-% DrawFormattedText(p.window,scaledXstr,p.xCenter - 20,buttomLine + 260,p.white);
+% DrawUTF8(p.window,scaledXstr,p.xCenter - 20,buttomLine + 260,p.white);
 
 t=Screen(p.window,'Flip');
 
@@ -97,7 +97,7 @@ end
 end
 
 Screen('TextSize',p.window,40);    
-DrawFormattedText(p.window,textLine,'center',p.yCenter - 250,p.white);
+DrawUTF8(p.window,textLine,'center',p.yCenter - 250,p.white);
 
 
 
@@ -110,9 +110,9 @@ Screen('DrawLine', p.window, p.white, p.xCenter, buttomLine - 10, p.xCenter, but
 
 Screen('TextSize',p.window,30);
 % Text - bottom
-DrawFormattedText(p.window,'Very unsure',p.xCenter - 560,buttomLine + 60,p.white);
-% DrawFormattedText(p.window,'50% con','center',buttomLine + 60,p.white);
-DrawFormattedText(p.window,'Absolutely certain',p.xCenter + 470,buttomLine + 60,p.white);
+DrawUTF8(p.window,'非常不确定',p.xCenter - 560,buttomLine + 60,p.white);
+% DrawUTF8(p.window,'50% 信心','center',buttomLine + 60,p.white);
+DrawUTF8(p.window,'完全确定',p.xCenter + 470,buttomLine + 60,p.white);
 
 Screen('DrawDots', p.window, [dotX buttomLine], 20, p.blue, [], 2);
 

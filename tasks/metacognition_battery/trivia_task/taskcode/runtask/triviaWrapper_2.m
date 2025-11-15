@@ -1,19 +1,41 @@
  %%%%%%%%%%%%%%%%%%%TRIVIAMETACOGNITIONTASK%%%%%%%%%%%% %%%%%%%% %%%%%%% %
 
  function out = triviaWrapper(sID)
+
+triviaDir = fileparts(mfilename('fullpath'));
+generalDir = fullfile(triviaDir, '..', '..', '..', 'general_functions');
+addpath(generalDir);
  
 KbName ('UnifyKeyNames');  
 KbCheck;
 
-p = triviaGetParams(sID); 
-Screen('TextFont',p.window,'Helvetica'); 
+p = triviaGetParams(sID);
+
+Screen('Preference','TextRenderer', 1);
+Screen('Preference','TextEncodingLocale','UTF-8');
+
+try
+    fonts = Screen('Fonts');
+    font = 'Microsoft YaHei';
+    if ~any(strcmpi(fonts, font))
+        font = 'SimHei';
+    end
+catch
+    font = 'Microsoft YaHei';
+end
+
+Screen('TextFont',  p.window, font);
+Screen('TextStyle', p.window, 0);
+Screen('TextSize',  p.window, 28);
+Screen('TextColor', p.window, [255 255 255]);
+
 Screen('TextSize', p.window, p.textSize);
 HideCursor;
 
 
 
 % Introduction
-DrawFormattedText(p.window,['Welcome to the experiment!' '\n \n Press any key to continue'], 'center', 'center', p.textColor);
+DrawUTF8(p.window,['欢迎参加本实验！' '\n \n 按任意键继续。'], 'center', 'center', p.textColor);
 Screen('Flip', p.window);
 KbWait;
 
@@ -48,8 +70,8 @@ trivia_instructions(p.window, p);
 [results, trial_counter] = runPracticeBlock(p,confidence, feedback, blockNumber, results, trial_counter);
 
 
-DrawFormattedText(p.window,['Great! Please ask the experimenter if you have any questions.'...
-                            '\n \n Outherwise, press any key to continue'], 'center', 'center', p.textColor);
+DrawUTF8(p.window,['太好了！如有任何问题，请向实验员提问。'...
+                            '\n \n 否则按任意键继续。'], 'center', 'center', p.textColor);
 Screen('Flip', p.window);
 KbWait;
 
@@ -82,8 +104,8 @@ for blockNumber = 1 : p.numberOfBlocks
    
     [results, trial_counter] = runBlock(p,confidence, feedback, blockNumber, results, trial_counter);
     
-    string = ['End of block ', num2str(blockNumber), ' out of ', num2str(p.numberOfBlocks)];
-    DrawFormattedText(p.window,[string '\n \n Press any key to continue'], 'center', 'center', p.textColor);
+    string = ['第 ' num2str(blockNumber) ' 段，共 ' num2str(p.numberOfBlocks) ' 段'];
+    DrawUTF8(p.window,[string '\n \n 按任意键继续。'], 'center', 'center', p.textColor);
     Screen('Flip', p.window);
     KbWait;
     
@@ -100,7 +122,7 @@ end
 
 %% End
 Screen('TextSize', p.window, p.textSize);
-DrawFormattedText(p.window,['The experiment is finished!' '\n \n Thank you for participating.'], 'center', 'center', p.textColor);
+DrawUTF8(p.window,['实验结束！' '\n \n 感谢你的参与。'], 'center', 'center', p.textColor);
 Screen('Flip', p.window);
 WaitSecs(2);
 

@@ -15,7 +15,7 @@ tasklist = {'memory', 'vision', 'trivia'};
 
 if nargin < 1
     
-    sID = inputdlg('Please Enter the sID');
+    sID = inputdlg('请输入被试编号');
     sID = sID{:};
     
     [which_task] = listdlg('ListString',tasklist);
@@ -23,7 +23,7 @@ if nargin < 1
     task = tasklist{which_task};
 
 elseif nargin < 2
-    sID = inputdlg('Please Enter the sID');
+    sID = inputdlg('请输入被试编号');
     sID = sID{:};
     
 

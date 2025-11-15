@@ -36,8 +36,8 @@ while nreversals < staircase_reversal && i_trial < ntrials
     WaitSecs(p.times.fix);
     % Draw dots
     drawnXY = drawDots(p, n);
-    DrawFormattedText(p.frame.ptr,'Which has more dots ? ', 'center',  p.my+p.stim.diam+50);
-    DrawFormattedText(p.frame.ptr,'["Left"] ? ["Right"]', 'center',  p.my+p.stim.diam+100);
+    DrawUTF8(p.frame.ptr,'哪个圆圈里的点更多？', 'center',  p.my+p.stim.diam+50);
+    DrawUTF8(p.frame.ptr,'按“左箭头”或“右箭头”作答。', 'center',  p.my+p.stim.diam+100);
     t=Screen('Flip', p.frame.ptr);
     
     % Check for keypress
@@ -60,13 +60,13 @@ while nreversals < staircase_reversal && i_trial < ntrials
             rt = respTime - t;
             % Show confirmation of choice
             drawDots(p, n, drawnXY);
-            DrawFormattedText(p.frame.ptr,'Which has more dots ? ', 'center',  p.my+p.stim.diam+50);
-            DrawFormattedText(p.frame.ptr,'["Left"] ? ["Right"]', 'center',  p.my+p.stim.diam+100);
+            DrawUTF8(p.frame.ptr,'哪个圆圈里的点更多？', 'center',  p.my+p.stim.diam+50);
+            DrawUTF8(p.frame.ptr,'按“左箭头”或“右箭头”作答。', 'center',  p.my+p.stim.diam+100);
             Screen('TextSize',p.frame.ptr,48);
             if key == 1
-                DrawFormattedText(p.frame.ptr,'*', p.stim.rectL(3)-p.stim.diam, p.my-p.stim.diam-50);
+                DrawUTF8(p.frame.ptr,'*', p.stim.rectL(3)-p.stim.diam, p.my-p.stim.diam-50);
             else
-                DrawFormattedText(p.frame.ptr,'*', p.stim.rectR(1)+p.stim.diam, p.my-p.stim.diam-50);
+                DrawUTF8(p.frame.ptr,'*', p.stim.rectR(1)+p.stim.diam, p.my-p.stim.diam-50);
             end
             Screen('TextSize',p.frame.ptr,24);
             Screen('Flip', p.frame.ptr);
@@ -80,14 +80,14 @@ while nreversals < staircase_reversal && i_trial < ntrials
     Screen('FrameOval',p.frame.ptr,p.white,p.stim.rectR,p.stim.pen_width);
     Screen('FillRect', p.frame.ptr,p.white, p.stim.FixCrossL');
     Screen('FillRect', p.frame.ptr,p.white, p.stim.FixCrossR');
-    DrawFormattedText(p.frame.ptr,'Which has more dots ? ', 'center',  p.my+p.stim.diam+50);
-    DrawFormattedText(p.frame.ptr,'["Left"] ? ["Right"]', 'center',  p.my+p.stim.diam+100);
+    DrawUTF8(p.frame.ptr,'哪个圆圈里的点更多？', 'center',  p.my+p.stim.diam+50);
+    DrawUTF8(p.frame.ptr,'按“左箭头”或“右箭头”作答。', 'center',  p.my+p.stim.diam+100);
     Screen('TextSize',p.frame.ptr,48);
     if trialComplete
         if key == 1
-            DrawFormattedText(p.frame.ptr,'*', p.stim.rectL(3)-p.stim.diam, p.my-p.stim.diam-50);
+            DrawUTF8(p.frame.ptr,'*', p.stim.rectL(3)-p.stim.diam, p.my-p.stim.diam-50);
         else
-            DrawFormattedText(p.frame.ptr,'*', p.stim.rectR(1)+p.stim.diam, p.my-p.stim.diam-50);
+            DrawUTF8(p.frame.ptr,'*', p.stim.rectR(1)+p.stim.diam, p.my-p.stim.diam-50);
         end
     end
     Screen('TextSize',p.frame.ptr,24);
@@ -112,13 +112,13 @@ while nreversals < staircase_reversal && i_trial < ntrials
             Screen('FrameOval',p.frame.ptr,p.white,p.stim.rectR,p.stim.pen_width);
             Screen('FillRect', p.frame.ptr,p.white, p.stim.FixCrossL');
             Screen('FillRect', p.frame.ptr,p.white, p.stim.FixCrossR');
-            DrawFormattedText(p.frame.ptr,'Which has more dots ? ', 'center',  p.my+p.stim.diam+50);
-            DrawFormattedText(p.frame.ptr,'["Left"] ? ["Right"]', 'center',  p.my+p.stim.diam+100);
+            DrawUTF8(p.frame.ptr,'哪个圆圈里的点更多？', 'center',  p.my+p.stim.diam+50);
+            DrawUTF8(p.frame.ptr,'按“左箭头”或“右箭头”作答。', 'center',  p.my+p.stim.diam+100);
             Screen('TextSize',p.frame.ptr,48);
             if key == 1
-                DrawFormattedText(p.frame.ptr,'*', p.stim.rectL(3)-p.stim.diam, p.my-p.stim.diam-50);
+                DrawUTF8(p.frame.ptr,'*', p.stim.rectL(3)-p.stim.diam, p.my-p.stim.diam-50);
             else
-                DrawFormattedText(p.frame.ptr,'*', p.stim.rectR(1)+p.stim.diam, p.my-p.stim.diam-50);
+                DrawUTF8(p.frame.ptr,'*', p.stim.rectR(1)+p.stim.diam, p.my-p.stim.diam-50);
             end
             Screen('TextSize',p.frame.ptr,24);
             Screen('Flip', p.frame.ptr);
@@ -197,9 +197,9 @@ while nreversals < staircase_reversal && i_trial < ntrials
     
     if feedback
         if results.correct(i_trial)
-            DrawText(p.frame.ptr,'Correct!', 'c');
+            DrawUTF8(p.frame.ptr,'回答正确！', 'center', 'center');
         else
-            DrawText(p.frame.ptr,'Incorrect', 'c');
+            DrawUTF8(p.frame.ptr,'回答错误', 'center', 'center');
         end
         Screen('Flip', p.frame.ptr);
         WaitSecs(p.times.feedback);

@@ -5,68 +5,90 @@ function perceptWrapper(sID)
 
 clc
 addpath('mypsychtoolbox')
+
+baseDir = fileparts(mfilename('fullpath'));
+generalDir = fullfile(baseDir, '..', '..', 'general_functions');
+addpath(generalDir);
 KbName('UnifyKeyNames');
 PsychJavaTrouble()
 %% Parameters
 p = perceptGetParams(sID);
-Screen('TextSize',p.frame.ptr,28);
+
+windowPtr = p.frame.ptr;
+Screen('Preference','TextRenderer', 1);
+Screen('Preference','TextEncodingLocale','UTF-8');
+
+try
+    fonts = Screen('Fonts');
+    font = 'Microsoft YaHei';
+    if ~any(strcmpi(fonts, font))
+        font = 'SimHei';
+    end
+catch
+    font = 'Microsoft YaHei';
+end
+
+Screen('TextFont',  windowPtr, font);
+Screen('TextStyle', windowPtr, 0);
+Screen('TextSize',  windowPtr, 28);
+Screen('TextColor', windowPtr, [255 255 255]);
 
 HideCursor;
 %% Introduct ion
-DrawText(p.frame.ptr,{'Welcome to this experiment!',' ',...
-    'Press space bar to find out what the task involves!'},'c');
+DrawUTF8(p.frame.ptr, ['欢迎参加本实验！' newline newline ...
+    '按下空格键以了解任务内容！'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(1);
 WaitAnyPress(KbName('space'));
 
 %% Example stimul i
 
-DrawFormattedText(p.frame.ptr,['You will see two circles on the screen each with a number of dots inside.\n'...
-    ' Your task is to try to guess which circle contains the most points.\n'...
-    ' Then we will ask you to rate your confidence in your decision. \n\n'...
-    ' \nPlease press  SPACE to continue.'], 'center', 'center');
+DrawUTF8(p.frame.ptr,['屏幕上会出现两个圆圈，每个圆圈里都有一些点。\n'...
+    '你的任务是判断哪个圆圈中的点数更多。\n'...
+    '随后我们会请你为自己的决定给出信心评分。\n\n'...
+    '请按下空格键继续。'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(2);
 WaitAnyPress(KbName('space'));
 
-DrawText(p.frame.ptr,'Here are some example stimuli', 'c');
+DrawUTF8(p.frame.ptr,'下面是一些示例刺激', 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(1.0);
 
 n=[40 60];
 drawDots(p, n);
-DrawFormattedText(p.frame.ptr,'40 vs 60', 'center', p.my+p.stim.diam+50);
+DrawUTF8(p.frame.ptr,'40 对 60', 'center', p.my+p.stim.diam+50);
 t=Screen('Flip', p.frame.ptr);
 WaitSecs(3);
 
 n=[50 30];
 drawDots(p, n);
-DrawFormattedText(p.frame.ptr,'50 vs 30', 'center', p.my+p.stim.diam+50);
+DrawUTF8(p.frame.ptr,'50 对 30', 'center', p.my+p.stim.diam+50);
 t=Screen('Flip', p.frame.ptr);
 WaitSecs(3);
 
 n=[53 58];
 drawDots(p, n);
-DrawFormattedText(p.frame.ptr,'53 vs 58', 'center', p.my+p.stim.diam+50);
+DrawUTF8(p.frame.ptr,'53 对 58', 'center', p.my+p.stim.diam+50);
 t=Screen('Flip', p.frame.ptr);
 WaitSecs(3);
 
 n=[35 25];
 drawDots(p, n);
-DrawFormattedText(p.frame.ptr,'35 vs 25', 'center', p.my+p.stim.diam+50);
+DrawUTF8(p.frame.ptr,'35 对 25', 'center', p.my+p.stim.diam+50);
 t=Screen('Flip', p.frame.ptr);
 WaitSecs(3);
 
-DrawFormattedText(p.frame.ptr,['The first part of the task is to choose which circle contains the most points.\n'...
-    ' You will use the left and right arrow keys to make your choice.\n'...
-    ' We will next familiarise you with this part of the task.\n'...
-    ' Don''t worry if some of your decisions feel like guesses - it is a hard task!\n\n'...
-    '\nPress the space bar to continue'], 'center', 'center');
+DrawUTF8(p.frame.ptr,['任务的第一部分是选择哪个圆圈包含的点数更多。\n'...
+    '你将使用左右方向键做出选择。\n'...
+    '接下来我们会带你熟悉这一部分的流程。\n'...
+    '即使感觉像是在猜测也别担心——这是个很难的任务！\n\n'...
+    '请按下空格键继续。'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(2);
 WaitAnyPress(KbName('space'));
 
-DrawText(p.frame.ptr,{'Training!',' ',' ','(Press space to start)'},'c');
+DrawUTF8(p.frame.ptr,['练习开始！' newline newline '按下空格键开始'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(0.5);
 WaitAnyPress(KbName('space'));
@@ -90,16 +112,16 @@ results = perceptRunBlock(p, feedback, conf, ntrials, staircase_reversal, stepsi
 xc=median(results.contrast(results.i_trial_lastreversal:end)); % contrast at end of block
 
 %% Training on task with confidence rating
-DrawFormattedText(p.frame.ptr, ['We will now give you some practice at using the confidence scale. \n\n After you make a left/right choice,\n' ...
-    'you will see a sliding scale to allow you to rate your confidence in getting the right answer.\n\n'...
-    'You can move the cursor around on the scale using the left and right arrow keys\n'...
-    'You confirm your confidence by pressing the space bar\n'...
-    'The left end of the scale means that you are less confident than normal, and\n'...
-    'the right end of the scale means that you are more confident than normal.\n\n'...
-    'However, please remember that this is a difficult task - it`s rare that you will be very confident!\n'...
-    'As we are interested in relative changes in confidence, we encourage you to use the whole scale.\n\n' ...
-    'There won''t be any more feedback as to whether you are right or wrong!\n\n' ...
-    '(Press space bar to continue)'], 'center', 'center');
+DrawUTF8(p.frame.ptr, ['现在我们来练习如何使用信心量表。\n\n当你做出左右选择后，\n' ...
+    '屏幕上会出现一个滑动刻度，帮助你评估自己是否选对了。\n\n'...
+    '你可以使用左右方向键移动刻度上的指示器，\n'...
+    '按下空格键即可确认你的信心评分。\n'...
+    '刻度左端表示“比平时更不自信”，\n'...
+    '刻度右端表示“比平时更自信”。\n\n'...
+    '请记住任务很困难——很少会非常自信！\n'...
+    '我们关注的是信心的相对变化，请尽量使用整个刻度。\n\n' ...
+    '接下来将不会再提示你的回答对错！\n\n' ...
+    '请按下空格键继续。'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(0.5);
 WaitAnyPress(KbName('space'));
@@ -114,9 +136,9 @@ adapt = 0;
 results = perceptRunBlock(p, feedback, conf, ntrials, staircase_reversal, stepsize, adapt, start_x);
 
 %% Main task blocks (8 blocks of 25 trials)
-DrawFormattedText(p.frame.ptr, ['We will now ask you to do 8 blocks of 25 trials each, just like in the practice \n\n' ...
-    'If you have any questions, please ask the experimenter now! \n\n' ...
-    'Otherwise please press the space bar to start...'], 'center', 'center');
+DrawUTF8(p.frame.ptr, ['接下来请完成 8 个区块，每个区块 25 个试次，与练习相同。\n\n' ...
+    '如果有任何疑问，请现在向实验员提问！\n\n' ...
+    '准备好后请按下空格键开始……'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(0.5);
 WaitAnyPress(KbName('space'));
@@ -131,8 +153,8 @@ for b = 1:nblocks
     start_x = xc;
     results = perceptRunBlock(p, feedback, conf, ntrials, staircase_reversal, stepsize, adapt, start_x);
     xc=round(median(results.contrast(results.i_trial_lastreversal:end))); % contrast at end of block
-    DrawFormattedText(p.frame.ptr, ['Take a break! \n\n' ...
-        'Please press the space bar to start the next block when you are ready...'], 'center', 'center');
+    DrawUTF8(p.frame.ptr, ['休息一下！\n\n' ...
+        '准备好后按下空格键开始下一段……'], 'center', 'center');
     Screen('Flip', p.frame.ptr);
     WaitSecs(0.5);
     WaitAnyPress(KbName('space'));    

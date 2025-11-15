@@ -5,60 +5,82 @@
 clear all
 clc
 addpath('mypsychtoolbox')
+
+baseDir = fileparts(mfilename('fullpath'));
+generalDir = fullfile(baseDir, '..', '..', 'general_functions');
+addpath(generalDir);
 KbName('UnifyKeyNames');
 PsychJavaTrouble()
 %% Parameters
 p = perceptGetParams;
-Screen('TextSize',p.frame.ptr,24);
+
+windowPtr = p.frame.ptr;
+Screen('Preference','TextRenderer', 1);
+Screen('Preference','TextEncodingLocale','UTF-8');
+
+try
+    fonts = Screen('Fonts');
+    font = 'Microsoft YaHei';
+    if ~any(strcmpi(fonts, font))
+        font = 'SimHei';
+    end
+catch
+    font = 'Microsoft YaHei';
+end
+
+Screen('TextFont',  windowPtr, font);
+Screen('TextStyle', windowPtr, 0);
+Screen('TextSize',  windowPtr, 28);
+Screen('TextColor', windowPtr, [255 255 255]);
 
 HideCursor;
 %% Introduct ion
-DrawText(p.frame.ptr,{'Welcome to this experiment!',' ',...
-    'Press space bar to find out what the task involves!'},'c');
+DrawUTF8(p.frame.ptr, ['欢迎参加本实验！' newline newline ...
+    '按下空格键以了解任务内容！'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(1);
 WaitAnyPress(KbName('space'));
 
 %% Example stimul i
 
-DrawText(p.frame.ptr,{'You will see two circles on the screen' ,'each with a number of dots inside.',' ' , ...
-    ' ', 'Your task is to try to guess', 'which circle contains the most points.',...
-    ' ', 'Then we will ask you to rate','your confidence in your decision.', ...
-    ' ', 'Please press the space bar to continue'},'c');
+DrawUTF8(p.frame.ptr, ['屏幕上会出现两个圆圈，每个圆圈里都有一些点。' newline newline ...
+    '你的任务是判断哪个圆圈里包含的点数更多。' newline newline ...
+    '随后我们会请你对自己的选择给出“信心程度”的评分。' newline newline ...
+    '请按下空格键继续。'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(2);
 WaitAnyPress(KbName('space'));
 
-DrawText(p.frame.ptr,'Here are some example stimuli', 'c');
+DrawUTF8(p.frame.ptr,'下面是一些示例刺激', 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(1.0);
 
 n=[40 60];
 drawDots(p, n);
-DrawFormattedText(p.frame.ptr,'40 vs 60', 'center', p.my+p.stim.diam+50);
+DrawUTF8(p.frame.ptr,'40 对 60', 'center', p.my+p.stim.diam+50);
 t=Screen('Flip', p.frame.ptr);
 WaitSecs(3);
 
 n=[50 30];
 drawDots(p, n);
-DrawFormattedText(p.frame.ptr,'50 vs 30', 'center', p.my+p.stim.diam+50);
+DrawUTF8(p.frame.ptr,'50 对 30', 'center', p.my+p.stim.diam+50);
 t=Screen('Flip', p.frame.ptr);
 WaitSecs(3);
 
 n=[53 58];
 drawDots(p, n);
-DrawFormattedText(p.frame.ptr,'53 vs 58', 'center', p.my+p.stim.diam+50);
+DrawUTF8(p.frame.ptr,'53 对 58', 'center', p.my+p.stim.diam+50);
 t=Screen('Flip', p.frame.ptr);
 WaitSecs(3);
 
 n=[35 25];
 drawDots(p, n);
-DrawFormattedText(p.frame.ptr,'35 vs 25', 'center', p.my+p.stim.diam+50);
+DrawUTF8(p.frame.ptr,'35 对 25', 'center', p.my+p.stim.diam+50);
 t=Screen('Flip', p.frame.ptr);
 WaitSecs(3);
 
 %% Main task blocks (8 blocks of 25 trials)
-DrawFormattedText(p.frame.ptr, ['Please press the space bar to start...'], 'center', 'center');
+DrawUTF8(p.frame.ptr, '请按下空格键开始……', 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(0.5);
 WaitAnyPress(KbName('space'));
@@ -73,7 +95,7 @@ for b = 1:nblocks
     start_x = 4;    % hardcode a starting offset of 4 dots
     results = perceptRunBlock(p, feedback, conf, ntrials, staircase_reversal, stepsize, adapt, start_x);
     xc=median(results.contrast(results.i_trial_lastreversal:end)  ); % contrast at end of block
-    DrawFormattedText(p.frame.ptr, ['All done, take a break!'], 'center', 'center');
+    DrawUTF8(p.frame.ptr, '本段结束，可以短暂休息！', 'center', 'center');
     Screen('Flip', p.frame.ptr);
     WaitSecs(0.5);
     WaitAnyPress(KbName('space'));    

@@ -21,7 +21,7 @@ else
     showWarning = 0;
 end
 
-DrawFormattedText(window,breakText,'center','center');
+DrawUTF8(window,breakText,'center','center');
 Screen('Flip',window);
 
 %% break ends when user presses button
@@ -34,8 +34,8 @@ elseif showWarning
     while GetSecs - t0 < breakDuration - warningTime, ;, end
     while GetSecs - t0 < breakDuration
         remainingTime_inSecs = breakDuration - ceil(GetSecs - t0) + 1;
-        [nx ny] = DrawFormattedText(window,breakText,'center','center');
-        DrawFormattedText(window,['\n\nexperiment resumes in\n' num2str(remainingTime_inSecs) ' seconds'],'center',ny);
+        [nx ny] = DrawUTF8(window,breakText,'center','center');
+        DrawUTF8(window,['\n\n实验将在\n' num2str(remainingTime_inSecs) ' 秒后继续'],'center',ny);
         Screen('Flip',window);
     end
 else

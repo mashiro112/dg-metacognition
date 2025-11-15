@@ -12,7 +12,7 @@ Screen('TextSize', window,24);
 
 j=1;
 while j <= length(p.instruction_text)
-    DrawFormattedText(window,[pg{j}], 'center', 'center');
+    DrawUTF8(window,[pg{j}], 'center', 'center');
     Screen('Flip',window);
     WaitSecs(.5);
     KbWait();

@@ -59,9 +59,9 @@ while (secs - start_time) < p.confDuration_inSecs;
     tickLabels = {'1','2','3','4','5','6', '7'};
     for tick = 1:length(tickLabels)
         Screen('DrawLine',curWindow,[255 255 255],tickMark(tick),center(2)+VASoffset+10,tickMark(tick),center(2)+VASoffset);
-        DrawFormattedText(curWindow,tickLabels{tick},tickMark(tick)-10,center(2)+VASoffset-30,[255 255 255]);
+        DrawUTF8(curWindow,tickLabels{tick},tickMark(tick)-10,center(2)+VASoffset-30,[255 255 255]);
     end
-    DrawFormattedText(curWindow,'Confidence?','center',center(2)+VASoffset+75,[255 255 255]);
+    DrawUTF8(curWindow,'信心程度？','center',center(2)+VASoffset+75,[255 255 255]);
 
     % Update arrow
     arrowPoints = [([-0.5 0 0.5]'.*arrowwidth)+xpos ([1 0 1]'.*arrowheight)+center(2)+VASoffset];
@@ -73,7 +73,7 @@ if deadline == 0;
     conf = NaN;
     RT = NaN;
     % Draw confidence text
-    DrawFormattedText(curWindow,'Too late!','center',center(2)+VASoffset+75,[255 255 255]);
+    DrawUTF8(curWindow,'太晚了！','center',center(2)+VASoffset+75,[255 255 255]);
     Screen('Flip', curWindow);
     pause(p.confFBDuration_inSecs);
 
@@ -96,9 +96,9 @@ elseif deadline == 1;
     tickLabels = {'1','2','3','4','5','6', '7'};
     for tick = 1:length(tickLabels)
         Screen('DrawLine',curWindow,[255 255 255],tickMark(tick),center(2)+VASoffset+10,tickMark(tick),center(2)+VASoffset);
-        DrawFormattedText(curWindow,tickLabels{tick},tickMark(tick)-10,center(2)+VASoffset-30,[255 255 255]);
+        DrawUTF8(curWindow,tickLabels{tick},tickMark(tick)-10,center(2)+VASoffset-30,[255 255 255]);
     end
-    DrawFormattedText(curWindow,'Confidence?','center',center(2)+VASoffset+75,[255 255 255]);
+    DrawUTF8(curWindow,'信心程度？','center',center(2)+VASoffset+75,[255 255 255]);
 
     % Show arrow
     arrowPoints = [([-0.5 0 0.5]'.*arrowwidth)+xpos ([1 0 1]'.*arrowheight)+center(2)+VASoffset];

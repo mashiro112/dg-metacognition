@@ -15,7 +15,7 @@ tasklist = {'memory', 'vision', 'trivia'};
 
 if nargin < 1
     
-    sID = inputdlg('Please Enter the sID');
+    sID = inputdlg('请输入被试编号');
     sID = sID{:};
     
     [which_task] = listdlg('ListString',tasklist);
@@ -23,7 +23,7 @@ if nargin < 1
     task = tasklist{which_task};
 
 elseif nargin < 2
-    sID = inputdlg('Please Enter the sID');
+    sID = inputdlg('请输入被试编号');
     sID = sID{:};
     
 
@@ -99,13 +99,15 @@ end
 %% clean up
 
 %% copy data to export dir - OVERWRITES DATA 
+setup_paths
+cd(parent_dir)
 
-datfiles = subdir(fullfile('*mat'));
+datfiles = subdir(fullfile('*Data*mat'));
 
 for n = 1:length(datfiles)
     
    
-copyfile(datfiles(n).name, [proj_dir '\cobe_data/'], 'f')    
+copyfile(datfiles(n).name, [proj_dir '\all_data\'], 'f')    
     
 end
     
