@@ -162,6 +162,8 @@ for b = 1:nblocks
     
     save(p.filename,'DATA');
 end
+save(p.filename,'DATA');
+exportPerceptResults(p.filename, DATA, p);
 
 %% Save the data and exit
 Screen('Closeall')
