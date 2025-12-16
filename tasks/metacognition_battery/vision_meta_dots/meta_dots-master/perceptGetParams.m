@@ -22,8 +22,8 @@ if IsWin
 else
     dataDir = [pwd '/perceptData/'];
 end
-if ~exist('perceptData')
-    mkdir perceptData
+if ~exist(dataDir, 'dir')
+    mkdir(dataDir);
 end
 
 p.filename = [dataDir p.filename];

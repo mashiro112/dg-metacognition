@@ -31,6 +31,10 @@ else
     dataDir = [pwd '/memData/'];
 end
 
+if ~exist(dataDir, 'dir')
+    mkdir(dataDir);
+end
+
 % check inputs
 d = dir(dataDir);
 
@@ -85,4 +89,3 @@ while (p.listGroup < 1 || p.listGroup > 6)
     p.listGroup = str2num(p.listGroup{1});
 end
 eval(['p.studyListOrder = p.studyListOrder' num2str(p.listGroup) '([1 2 3 4 5 6]);']);
-

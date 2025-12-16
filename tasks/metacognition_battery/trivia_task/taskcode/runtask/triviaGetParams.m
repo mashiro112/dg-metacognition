@@ -27,10 +27,9 @@ else
     dataDir = [pwd '/triviaData/'];
 end
 
-if ~exist('triviaData')
-    mkdir triviaData
+if ~exist(dataDir, 'dir')
+    mkdir(dataDir);
 end
-
 
 p.filename = [dataDir p.filename];
 
