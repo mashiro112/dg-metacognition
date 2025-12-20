@@ -34,6 +34,18 @@ Screen('TextSize',  windowPtr, 28);
 Screen('TextColor', windowPtr, [255 255 255]);
 
 HideCursor;
+
+orderInfo = getABBALatinOrder(p.subID);
+metaRatings = struct(...
+    'order', orderInfo.name,...
+    'preOrder', {orderInfo.pre},...
+    'postOrder', {orderInfo.post},...
+    'taskBeliefPre', NaN, 'taskBeliefPreRT', NaN,...
+    'taskBeliefPost', NaN, 'taskBeliefPostRT', NaN,...
+    'socialRankPre', NaN, 'socialRankPreRT', NaN,...
+    'socialRankPost', NaN, 'socialRankPostRT', NaN,...
+    'socialManipCheckPre', NaN, 'socialManipCheckPreRT', NaN,...
+    'socialManipCheckPost', NaN, 'socialManipCheckPostRT', NaN);
 %% Introduct ion
 DrawUTF8(p.frame.ptr, ['欢迎参加本实验！' newline newline ...
     '按下空格键以了解任务内容！'], 'center', 'center');
@@ -135,6 +147,29 @@ stepsize = 1;
 adapt = 0;
 results = perceptRunBlock(p, feedback, conf, ntrials, staircase_reversal, stepsize, adapt, start_x);
 
+ratingCenter = [p.mx p.my];
+scaleWidth = p.stim.VASwidth_inPixels;
+arrowWidth = p.stim.arrowWidth_inPixels;
+offset = p.stim.VASoffset_inPixels;
+
+for i_order = 1:numel(orderInfo.pre)
+    switch orderInfo.pre{i_order}
+        case 'taskBelief'
+            [metaRatings.taskBeliefPre, metaRatings.taskBeliefPreRT] = collectContinuousRating(p.frame.ptr, ratingCenter, scaleWidth, ...
+                '视觉感知测试中，每一轮测试都会要求你观察两组点阵，随后判断哪一组的点数更多。测试共计 200 轮。请预估你在该视觉测试中答对的总百分比(1–100%)：', ...
+                '答对1%', '答对100%', 1, 100, arrowWidth, offset);
+        case 'socialRank'
+            [metaRatings.socialRankPre, metaRatings.socialRankPreRT] = collectContinuousRating(p.frame.ptr, ratingCenter, scaleWidth, ...
+                '视觉感知测试中，每一轮测试都会要求你观察两组点阵，随后判断哪一组的点数更多。测试共计 200 轮。想象一下：现在需要将100位与你身份相似的同龄人，按照知觉领域能力强弱进行排序，你认为自己在这100人中能排在第几名(1-100)？', ...
+                '第1名', '第100名', 1, 100, arrowWidth, offset);
+            [metaRatings.socialManipCheckPre, metaRatings.socialManipCheckPreRT] = collectLikertMouse(p.frame.ptr, ...
+                '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较：1=完全没有 … 7=非常多。');
+    end
+end
+
+DATA = struct([]);
+save(p.filename, 'metaRatings', 'DATA');
+
 %% Main task blocks (8 blocks of 25 trials)
 DrawUTF8(p.frame.ptr, ['接下来请完成 8 个区块，每个区块 25 个试次，与练习相同。\n\n' ...
     '如果有任何疑问，请现在向实验员提问！\n\n' ...
@@ -157,11 +192,28 @@ for b = 1:nblocks
         '准备好后按下空格键开始下一段……'], 'center', 'center');
     Screen('Flip', p.frame.ptr);
     WaitSecs(0.5);
-    WaitAnyPress(KbName('space'));    
+    WaitAnyPress(KbName('space'));
     DATA(b).results = results;
-    
-    save(p.filename,'DATA');
+
+    save(p.filename,'DATA','metaRatings');
 end
+
+for i_order = 1:numel(orderInfo.post)
+    switch orderInfo.post{i_order}
+        case 'taskBelief'
+            [metaRatings.taskBeliefPost, metaRatings.taskBeliefPostRT] = collectContinuousRating(p.frame.ptr, ratingCenter, scaleWidth, ...
+                '在视觉感知测试中，你已观察了两组点阵，随后判断了哪一组的点数更多。请预估你在视觉测试中答对了的总百分比(1–100%):', ...
+                '答对1%', '答对100%', 1, 100, arrowWidth, offset);
+        case 'socialRank'
+            [metaRatings.socialRankPost, metaRatings.socialRankPostRT] = collectContinuousRating(p.frame.ptr, ratingCenter, scaleWidth, ...
+                '视觉感知测试中，你已观察了两组点阵，随后判断了哪一组的点数更多。想象一下：现在需要将100位与你身份相似的同龄人，按照知觉能力强弱进行排序，你认为自己在这100人中能排在第几名(1-100)？', ...
+                '第1名', '第100名', 1, 100, arrowWidth, offset);
+            [metaRatings.socialManipCheckPost, metaRatings.socialManipCheckPostRT] = collectLikertMouse(p.frame.ptr, ...
+                '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较：1=完全没有 … 7=非常多。');
+    end
+end
+
+save(p.filename,'DATA','metaRatings');
 
 %% Save the data and exit
 Screen('Closeall')
