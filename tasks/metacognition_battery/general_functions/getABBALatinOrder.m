@@ -1,21 +1,17 @@
 function order = getABBALatinOrder(idString)
-% getABBALatinOrder Return balanced ABBA-style order info based on subject ID.
+% getABBALatinOrder Return balanced ABBA-style task/measurement order.
 
-templates(1).name = 'ABBA';
-templates(1).pre = {'taskBelief','socialRank'};
-templates(1).post = {'socialRank','taskBelief'};
+templates(1).name = 'vision_taskBelief__trivia_socialRank';
+templates(1).sequence = {struct('task','vision','measure','taskBelief'), struct('task','trivia','measure','socialRank')};
 
-templates(2).name = 'BAAB';
-templates(2).pre = {'socialRank','taskBelief'};
-templates(2).post = {'taskBelief','socialRank'};
+templates(2).name = 'vision_socialRank__trivia_taskBelief';
+templates(2).sequence = {struct('task','vision','measure','socialRank'), struct('task','trivia','measure','taskBelief')};
 
-templates(3).name = 'AABB';
-templates(3).pre = {'taskBelief','socialRank'};
-templates(3).post = {'taskBelief','socialRank'};
+templates(3).name = 'trivia_taskBelief__vision_socialRank';
+templates(3).sequence = {struct('task','trivia','measure','taskBelief'), struct('task','vision','measure','socialRank')};
 
-templates(4).name = 'BBAA';
-templates(4).pre = {'socialRank','taskBelief'};
-templates(4).post = {'socialRank','taskBelief'};
+templates(4).name = 'trivia_socialRank__vision_taskBelief';
+templates(4).sequence = {struct('task','trivia','measure','socialRank'), struct('task','vision','measure','taskBelief')};
 
 numericID = str2double(idString);
 if isnan(numericID)

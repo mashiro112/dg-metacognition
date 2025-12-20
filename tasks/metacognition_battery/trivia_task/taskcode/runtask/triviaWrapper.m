@@ -1,6 +1,6 @@
  %%%%%%%%%%%%%%%%%%%TRIVIAMETACOGNITIONTASK%%%%%%%%%%%% %%%%%%%% %%%%%%% %
 
- function out = triviaWrapper(sID)
+ function out = triviaWrapper(sID, measureType)
 
 triviaDir = fileparts(mfilename('fullpath'));
 generalDir = fullfile(triviaDir, '..', '..', '..', 'general_functions');
@@ -32,11 +32,12 @@ Screen('TextColor', p.window, [255 255 255]);
 Screen('TextSize', p.window, p.textSize);
 HideCursor;
 
-orderInfo = getABBALatinOrder(p.subID);
+if nargin < 2 || isempty(measureType)
+    measureType = 'taskBelief';
+end
+
 metaRatings = struct(...
-    'order', orderInfo.name,...
-    'preOrder', {orderInfo.pre},...
-    'postOrder', {orderInfo.post},...
+    'assignedMeasure', measureType,...
     'taskBeliefPre', NaN, 'taskBeliefPreRT', NaN,...
     'taskBeliefPost', NaN, 'taskBeliefPostRT', NaN,...
     'socialRankPre', NaN, 'socialRankPreRT', NaN,...
@@ -115,34 +116,32 @@ results.socialRankPreRT = NaN;
 results.socialRankPostRT = NaN;
 results.socialManipCheckPreRT = NaN;
 results.socialManipCheckPostRT = NaN;
-results.orderLabel = orderInfo.name;
-results.preOrder = orderInfo.pre;
-results.postOrder = orderInfo.post;
+results.assignedMeasure = measureType;
 
 ratingCenter = [p.mx p.my];
 scaleWidth = p.stim.VASwidth_inPixels;
 arrowWidth = p.stim.arrowWidth_inPixels;
 offset = p.stim.VASoffset_inPixels;
 
-for i_order = 1:numel(orderInfo.pre)
-    switch orderInfo.pre{i_order}
-        case 'taskBelief'
-            [metaRatings.taskBeliefPre, metaRatings.taskBeliefPreRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
-                '在趣味知识问答测试中，你需要对各类事实做出判断。例如，你要判断两个国家中哪一个在过去的十年间的平均国内生产总值更高，或是判断两份食物中哪一份的热量更高。其中，国内生产总值相关判断和食物相关判断各有 100 轮测试，请预估你在趣味知识问答测试中答对的总百分比(1–100%)：', ...
-                '答对1%', '答对100%', 1, 100, arrowWidth, offset);
-            results.taskBeliefPre = metaRatings.taskBeliefPre;
-            results.taskBeliefPreRT = metaRatings.taskBeliefPreRT;
-        case 'socialRank'
-            [metaRatings.socialRankPre, metaRatings.socialRankPreRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
-                '在趣味知识问答测试中，你需要对各类事实做出判断。例如，你要判断两个国家中哪一个在过去的十年间的平均国内生产总值更高，或是判断两份食物中哪一份的热量更高。其中，国内生产总值相关判断和食物相关判断各有 100 轮测试。想象一下：现在需要将100位与你身份相似的同龄人，按照语义知识领域能力强弱进行排序，你认为自己在这100人中能排在第几名(1-100)？', ...
-                '第1名', '第100名', 1, 100, arrowWidth, offset);
-            [metaRatings.socialManipCheckPre, metaRatings.socialManipCheckPreRT] = collectLikertMouse(p.window, ...
-                '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较：1=完全没有 … 7=非常多。');
-            results.socialRankPre = metaRatings.socialRankPre;
-            results.socialRankPreRT = metaRatings.socialRankPreRT;
-            results.socialManipCheckPre = metaRatings.socialManipCheckPre;
-            results.socialManipCheckPreRT = metaRatings.socialManipCheckPreRT;
-    end
+switch measureType
+    case 'taskBelief'
+        [metaRatings.taskBeliefPre, metaRatings.taskBeliefPreRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
+            ['在趣味知识问答测试中，你需要对各类事实做出判断。例如，你要判断两个国家中哪一个在过去的十年间的平均国内生产总值更高，或是判断两份食物中哪一份的热量更高。' newline ...
+            '其中，国内生产总值相关判断和食物相关判断各有 100 轮测试，请预估你在趣味知识问答测试中答对的总百分比(1–100%)：'], ...
+            '答对1%', '答对100%', 1, 100, arrowWidth, offset);
+        results.taskBeliefPre = metaRatings.taskBeliefPre;
+        results.taskBeliefPreRT = metaRatings.taskBeliefPreRT;
+    case 'socialRank'
+        [metaRatings.socialRankPre, metaRatings.socialRankPreRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
+            ['在趣味知识问答测试中，你需要对各类事实做出判断。例如，你要判断两个国家中哪一个在过去的十年间的平均国内生产总值更高，或是判断两份食物中哪一份的热量更高。' newline ...
+            '其中，国内生产总值相关判断和食物相关判断各有 100 轮测试。想象一下：现在需要将100位与你身份相似的同龄人，按照语义知识领域能力强弱进行排序，你认为自己在这100人中能排在第几名(1-100)？'], ...
+            '第1名', '第100名', 1, 100, arrowWidth, offset);
+        [metaRatings.socialManipCheckPre, metaRatings.socialManipCheckPreRT] = collectLikertMouse(p.window, ...
+            '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较：1=完全没有 … 7=非常多。');
+        results.socialRankPre = metaRatings.socialRankPre;
+        results.socialRankPreRT = metaRatings.socialRankPreRT;
+        results.socialManipCheckPre = metaRatings.socialManipCheckPre;
+        results.socialManipCheckPreRT = metaRatings.socialManipCheckPreRT;
 end
 
 results.metaRatings = metaRatings;
@@ -172,25 +171,25 @@ for blockNumber = 1 : p.numberOfBlocks
 end
 %expEnd = toc;
 
-for i_order = 1:numel(orderInfo.post)
-    switch orderInfo.post{i_order}
-        case 'taskBelief'
-            [metaRatings.taskBeliefPost, metaRatings.taskBeliefPostRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
-                '在趣味知识问答测试中，你判断了两个国家里哪一个在过去十年间的平均国内生产总值更高，同时也判断了两份食物中哪一份的热量更高。请预估你在趣味知识问答测试中答对了的总百分比（1–100%）：', ...
-                '答对1%', '答对100%', 1, 100, arrowWidth, offset);
-            results.taskBeliefPost = metaRatings.taskBeliefPost;
-            results.taskBeliefPostRT = metaRatings.taskBeliefPostRT;
-        case 'socialRank'
-            [metaRatings.socialRankPost, metaRatings.socialRankPostRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
-                '在趣味知识问答测试中，你对各类事实做出了判断。比如，你判断了两个国家中哪一个在过去的十年间的平均国内生产总值更高，也判断了两份食物中哪一份的热量更高。想象一下：现在需要将100位与你身份相似的同龄人，按照语义知识领域能力强弱进行排序，你认为自己在这100人中能排在第几名(1-100)？', ...
-                '第1名', '第100名', 1, 100, arrowWidth, offset);
-            [metaRatings.socialManipCheckPost, metaRatings.socialManipCheckPostRT] = collectLikertMouse(p.window, ...
-                '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较：1=完全没有 … 7=非常多。');
-            results.socialRankPost = metaRatings.socialRankPost;
-            results.socialRankPostRT = metaRatings.socialRankPostRT;
-            results.socialManipCheckPost = metaRatings.socialManipCheckPost;
-            results.socialManipCheckPostRT = metaRatings.socialManipCheckPostRT;
-    end
+switch measureType
+    case 'taskBelief'
+        [metaRatings.taskBeliefPost, metaRatings.taskBeliefPostRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
+            ['在趣味知识问答测试中，你判断了两个国家里哪一个在过去十年间的平均国内生产总值更高，同时也判断了两份食物中哪一份的热量更高。' newline ...
+            '请预估你在趣味知识问答测试中答对了的总百分比（1–100%）：'], ...
+            '答对1%', '答对100%', 1, 100, arrowWidth, offset);
+        results.taskBeliefPost = metaRatings.taskBeliefPost;
+        results.taskBeliefPostRT = metaRatings.taskBeliefPostRT;
+    case 'socialRank'
+        [metaRatings.socialRankPost, metaRatings.socialRankPostRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
+            ['在趣味知识问答测试中，你对各类事实做出了判断。比如，你判断了两个国家中哪一个在过去的十年间的平均国内生产总值更高，也判断了两份食物中哪一份的热量更高。' newline ...
+            '想象一下：现在需要将100位与你身份相似的同龄人，按照语义知识领域能力强弱进行排序，你认为自己在这100人中能排在第几名(1-100)？'], ...
+            '第1名', '第100名', 1, 100, arrowWidth, offset);
+        [metaRatings.socialManipCheckPost, metaRatings.socialManipCheckPostRT] = collectLikertMouse(p.window, ...
+            '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较：1=完全没有 … 7=非常多。');
+        results.socialRankPost = metaRatings.socialRankPost;
+        results.socialRankPostRT = metaRatings.socialRankPostRT;
+        results.socialManipCheckPost = metaRatings.socialManipCheckPost;
+        results.socialManipCheckPostRT = metaRatings.socialManipCheckPostRT;
 end
 
 results.metaRatings = metaRatings;

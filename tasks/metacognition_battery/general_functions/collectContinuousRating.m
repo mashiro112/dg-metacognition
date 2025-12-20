@@ -10,6 +10,8 @@ if nargin < 10 || isempty(yOffset)
     yOffset = 0;
 end
 
+Screen('TextColor', windowPtr, [255 255 255]);
+
 keys = [KbName('LeftArrow') KbName('RightArrow') KbName('Space')];
 
 halfWidth = widthPx / 2;
@@ -19,6 +21,12 @@ range_x = max_x - min_x;
 xpos = center(1);
 
 arrowheight = arrowWidthPx * 2;
+rect = Screen('Rect', windowPtr);
+promptY = center(2) + yOffset - 120;
+wrapAt = 36;
+ticks = linspace(min_x, max_x, 6);
+tickLabels = {'20%','40%','60%','80%'};
+tickLabelPositions = ticks(2:5);
 
 start_time = GetSecs;
 confirmed = false;
@@ -43,14 +51,18 @@ while ~confirmed
     end
 
     Screen('FillRect', windowPtr, [0 0 0]);
-    % Draw scale line and anchors
+    % Draw scale line, ticks, and anchors
     Screen('DrawLine', windowPtr, [255 255 255], center(1) - halfWidth, center(2) + yOffset, center(1) + halfWidth, center(2) + yOffset);
-    Screen('DrawLine', windowPtr, [255 255 255], center(1) - halfWidth, center(2) + yOffset + 20, center(1) - halfWidth, center(2) + yOffset);
-    Screen('DrawLine', windowPtr, [255 255 255], center(1) + halfWidth, center(2) + yOffset + 20, center(1) + halfWidth, center(2) + yOffset);
+    for i_tick = 1:numel(ticks)
+        Screen('DrawLine', windowPtr, [255 255 255], ticks(i_tick), center(2) + yOffset + 15, ticks(i_tick), center(2) + yOffset - 15);
+    end
+    for i_label = 1:numel(tickLabelPositions)
+        DrawUTF8(windowPtr, tickLabels{i_label}, tickLabelPositions(i_label) - 15, center(2) + yOffset + 30, [255 255 255]);
+    end
 
-    DrawUTF8(windowPtr, prompt, 'center', center(2) + yOffset + 60, [255 255 255]);
-    DrawUTF8(windowPtr, leftLabel, center(1) - halfWidth, center(2) + yOffset + 45, [255 255 255]);
-    DrawUTF8(windowPtr, rightLabel, center(1) + halfWidth - 60, center(2) + yOffset + 45, [255 255 255]);
+    DrawFormattedText(windowPtr, prompt, 'center', promptY, [255 255 255], wrapAt, [], [], 1.5, [], rect);
+    DrawUTF8(windowPtr, leftLabel, center(1) - halfWidth - 20, center(2) + yOffset + 45, [255 255 255]);
+    DrawUTF8(windowPtr, rightLabel, center(1) + halfWidth - 40, center(2) + yOffset + 45, [255 255 255]);
 
     arrowPoints = [([-0.5 0 0.5]' .* arrowWidthPx) + xpos ([1 0 1]' .* arrowheight) + center(2) + yOffset];
     Screen('FillPoly', windowPtr, [255 255 255], arrowPoints);
@@ -62,11 +74,15 @@ RT = response_time - start_time;
 
 % Confirmation flash
 Screen('DrawLine', windowPtr, [255 255 255], center(1) - halfWidth, center(2) + yOffset, center(1) + halfWidth, center(2) + yOffset);
-Screen('DrawLine', windowPtr, [255 255 255], center(1) - halfWidth, center(2) + yOffset + 20, center(1) - halfWidth, center(2) + yOffset);
-Screen('DrawLine', windowPtr, [255 255 255], center(1) + halfWidth, center(2) + yOffset + 20, center(1) + halfWidth, center(2) + yOffset);
-DrawUTF8(windowPtr, prompt, 'center', center(2) + yOffset + 60, [255 255 255]);
-DrawUTF8(windowPtr, leftLabel, center(1) - halfWidth, center(2) + yOffset + 45, [255 255 255]);
-DrawUTF8(windowPtr, rightLabel, center(1) + halfWidth - 60, center(2) + yOffset + 45, [255 255 255]);
+for i_tick = 1:numel(ticks)
+    Screen('DrawLine', windowPtr, [255 255 255], ticks(i_tick), center(2) + yOffset + 15, ticks(i_tick), center(2) + yOffset - 15);
+end
+for i_label = 1:numel(tickLabelPositions)
+    DrawUTF8(windowPtr, tickLabels{i_label}, tickLabelPositions(i_label) - 15, center(2) + yOffset + 30, [255 255 255]);
+end
+DrawFormattedText(windowPtr, prompt, 'center', promptY, [255 255 255], wrapAt, [], [], 1.5, [], rect);
+DrawUTF8(windowPtr, leftLabel, center(1) - halfWidth - 20, center(2) + yOffset + 45, [255 255 255]);
+DrawUTF8(windowPtr, rightLabel, center(1) + halfWidth - 40, center(2) + yOffset + 45, [255 255 255]);
 arrowPoints = [([-0.5 0 0.5]' .* arrowWidthPx) + xpos ([1 0 1]' .* arrowheight) + center(2) + yOffset];
 Screen('FillPoly', windowPtr, [255 0 0], arrowPoints);
 Screen('Flip', windowPtr);
