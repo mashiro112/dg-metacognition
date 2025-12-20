@@ -23,6 +23,10 @@ if isstring(rightLabel)
     rightLabel = char(rightLabel);
 end
 
+% Split the prompt into wrapped UTF-8 lines so DrawUTF8 can render reliably
+wrapAt = 36;
+wrappedLines = wrapPromptText(prompt, wrapAt);
+
 Screen('TextColor', windowPtr, [255 255 255]);
 
 keys = [KbName('LeftArrow') KbName('RightArrow') KbName('Space')];
@@ -36,7 +40,6 @@ xpos = center(1);
 arrowheight = arrowWidthPx * 2;
 rect = Screen('Rect', windowPtr);
 promptY = center(2) + yOffset - 120;
-wrapAt = 36;
 ticks = linspace(min_x, max_x, 6);
 tickLabels = {'20%','40%','60%','80%'};
 tickLabelPositions = ticks(2:5);
@@ -73,7 +76,7 @@ while ~confirmed
         DrawUTF8(windowPtr, tickLabels{i_label}, tickLabelPositions(i_label) - 15, center(2) + yOffset + 30, [255 255 255]);
     end
 
-    DrawFormattedText(windowPtr, prompt, 'center', promptY, [255 255 255], wrapAt, [], [], 1.5, [], rect);
+    drawWrappedUTF8(windowPtr, wrappedLines, rect, promptY);
     DrawUTF8(windowPtr, leftLabel, center(1) - halfWidth - 20, center(2) + yOffset + 45, [255 255 255]);
     DrawUTF8(windowPtr, rightLabel, center(1) + halfWidth - 40, center(2) + yOffset + 45, [255 255 255]);
 
@@ -93,11 +96,46 @@ end
 for i_label = 1:numel(tickLabelPositions)
     DrawUTF8(windowPtr, tickLabels{i_label}, tickLabelPositions(i_label) - 15, center(2) + yOffset + 30, [255 255 255]);
 end
-DrawFormattedText(windowPtr, prompt, 'center', promptY, [255 255 255], wrapAt, [], [], 1.5, [], rect);
+drawWrappedUTF8(windowPtr, wrappedLines, rect, promptY);
 DrawUTF8(windowPtr, leftLabel, center(1) - halfWidth - 20, center(2) + yOffset + 45, [255 255 255]);
 DrawUTF8(windowPtr, rightLabel, center(1) + halfWidth - 40, center(2) + yOffset + 45, [255 255 255]);
 arrowPoints = [([-0.5 0 0.5]' .* arrowWidthPx) + xpos ([1 0 1]' .* arrowheight) + center(2) + yOffset];
 Screen('FillPoly', windowPtr, [255 0 0], arrowPoints);
 Screen('Flip', windowPtr);
 WaitSecs(0.25);
+
+end
+
+function wrappedLines = wrapPromptText(prompt, wrapAt)
+% wrapPromptText Break UTF-8 prompt into cell array of lines at wrapAt width.
+
+if isempty(prompt)
+    wrappedLines = {''};
+    return;
+end
+
+lines = regexp(prompt, '\n', 'split');
+wrappedLines = {};
+for i_line = 1:numel(lines)
+    current = string(lines{i_line});
+    while strlength(current) > wrapAt
+        wrappedLines{end+1} = char(extractBefore(current, wrapAt + 1)); %#ok<AGROW>
+        current = extractAfter(current, wrapAt);
+    end
+    wrappedLines{end+1} = char(current); %#ok<AGROW>
+end
+end
+
+function drawWrappedUTF8(windowPtr, wrappedLines, rect, startY)
+% drawWrappedUTF8 Render wrapped lines centered with UTF-8 drawing.
+
+lineHeight = 28;
+for i_line = 1:numel(wrappedLines)
+    bbox = Screen('TextBounds', windowPtr, wrappedLines{i_line});
+    x = RectCenter(rect);
+    x = x(1) - bbox(3) / 2;
+    y = startY + ((i_line - 1) * lineHeight);
+    DrawUTF8(windowPtr, wrappedLines{i_line}, x, y, [255 255 255]);
+end
+end
 
