@@ -10,6 +10,19 @@ if nargin < 10 || isempty(yOffset)
     yOffset = 0;
 end
 
+if isstring(prompt)
+    prompt = char(join(prompt, newline));
+elseif iscell(prompt)
+    prompt = char(strjoin(prompt, '\n'));
+end
+
+if isstring(leftLabel)
+    leftLabel = char(leftLabel);
+end
+if isstring(rightLabel)
+    rightLabel = char(rightLabel);
+end
+
 Screen('TextColor', windowPtr, [255 255 255]);
 
 keys = [KbName('LeftArrow') KbName('RightArrow') KbName('Space')];
