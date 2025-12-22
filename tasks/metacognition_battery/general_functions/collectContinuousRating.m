@@ -24,7 +24,7 @@ if isstring(rightLabel)
 end
 
 % Split the prompt into wrapped UTF-8 lines so DrawUTF8 can render reliably
-wrapAt = 36;
+wrapAt = 120;
 wrappedLines = wrapPromptText(prompt, wrapAt);
 
 Screen('TextColor', windowPtr, [255 255 255]);
@@ -131,10 +131,13 @@ function drawWrappedUTF8(windowPtr, wrappedLines, rect, startY)
 
     lineHeight = 28;
     for i_line = 1:numel(wrappedLines)
-        % Estimating width avoids Screen('TextBounds') crashes on some UTF-8 strings
-        % by assuming an average 8 px character width for centering.
-        approxWidth = length(wrappedLines{i_line}) * 8;
         [centerX, ~] = RectCenter(rect);
+        try
+            bbox = Screen('TextBounds', windowPtr, wrappedLines{i_line});
+            approxWidth = bbox(3) - bbox(1);
+        catch
+            approxWidth = length(wrappedLines{i_line}) * 12;
+        end
         x = centerX - (approxWidth / 2);
         y = startY + ((i_line - 1) * lineHeight);
         DrawUTF8(windowPtr, wrappedLines{i_line}, x, y, [255 255 255]);
