@@ -129,13 +129,15 @@ end
 function drawWrappedUTF8(windowPtr, wrappedLines, rect, startY)
 % drawWrappedUTF8 Render wrapped lines centered with UTF-8 drawing.
 
-lineHeight = 28;
-for i_line = 1:numel(wrappedLines)
-    bbox = Screen('TextBounds', windowPtr, wrappedLines{i_line});
-    x = RectCenter(rect);
-    x = x(1) - bbox(3) / 2;
-    y = startY + ((i_line - 1) * lineHeight);
-    DrawUTF8(windowPtr, wrappedLines{i_line}, x, y, [255 255 255]);
-end
+    lineHeight = 28;
+    for i_line = 1:numel(wrappedLines)
+        % Estimating width avoids Screen('TextBounds') crashes on some UTF-8 strings
+        % by assuming an average 8 px character width for centering.
+        approxWidth = length(wrappedLines{i_line}) * 8;
+        x = RectCenter(rect);
+        x = x(1) - (approxWidth / 2);
+        y = startY + ((i_line - 1) * lineHeight);
+        DrawUTF8(windowPtr, wrappedLines{i_line}, x, y, [255 255 255]);
+    end
 end
 
