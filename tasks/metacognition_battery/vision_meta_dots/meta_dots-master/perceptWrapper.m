@@ -164,7 +164,7 @@ switch measureType
             '测试共计 200 轮。想象一下：现在需要将100位与你身份相似的同龄人，按照知觉领域能力强弱进行排序，你认为自己在这100人中能排在第几名(1-100)？'], ...
             '第1名', '第100名', 1, 100, arrowWidth, offset);
         [metaRatings.socialManipCheckPre, metaRatings.socialManipCheckPreRT] = collectLikertMouse(p.frame.ptr, ...
-            '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较：1=完全没有 … 7=非常多。');
+            '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较。请按 1-7 选择。');
 end
 
 DATA = struct([]);
@@ -217,7 +217,7 @@ switch measureType
             '想象一下：现在需要将100位与你身份相似的同龄人，按照知觉能力强弱进行排序，你认为自己在这100人中能排在第几名(1-100)？'], ...
             '第1名', '第100名', 1, 100, arrowWidth, offset);
         [metaRatings.socialManipCheckPost, metaRatings.socialManipCheckPostRT] = collectLikertMouse(p.frame.ptr, ...
-            '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较：1=完全没有 … 7=非常多。');
+            '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较。请按 1-7 选择。');
 end
 
 save(p.filename,'DATA','metaRatings');
