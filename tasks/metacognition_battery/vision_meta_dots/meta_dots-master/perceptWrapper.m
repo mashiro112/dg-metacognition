@@ -178,10 +178,10 @@ DrawUTF8(p.frame.ptr, ['接下来请完成 8 个区块，每个区块 25 个试�
 Screen('Flip', p.frame.ptr);
 WaitSecs(0.5);
 WaitAnyPress(KbName('space'));
-nblocks = 8;
+nblocks = 1;
 feedback = 0;
 conf = 1;
-ntrials = 25;
+ntrials = 2;
 staircase_reversal = Inf;
 stepsize = 1;
 adapt = 0;
