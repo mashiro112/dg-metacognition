@@ -3,7 +3,7 @@ function p = triviaGetParams(inArg)
 % GM 2019
 
 %% Load Mat files
-
+Screen('Preference', 'SkipSyncTests', 2);
 p.list_countries = load('list_countries_complete.mat');
 p.list_food = load('list_food_complete.mat');
 
@@ -68,7 +68,8 @@ p.screensize = [];
 p.screenNum = 0;
 
 %PsychDebugWindowConfiguration(0, 0.5)
-Screen('Preference', 'SkipSyncTests', 0);
+% Skip synchronization tests to avoid hard failures on systems without VBL sync.
+Screen('Preference', 'SkipSyncTests', 2);
 [p.window, p.rect] = Screen('OpenWindow', p.screenNum, p.black, p.screensize);
 Screen('FillRect', p.window, p.bgcolor);
 [p.xCenter, p.yCenter] = RectCenter(p.rect);
@@ -78,15 +79,15 @@ Screen('FillRect', p.window, p.bgcolor);
 % Screen(p.window, 'Flip');
 
 %% Task Parameters
-p.totalNumPracticeTrial = 20;
+p.totalNumPracticeTrial = 2;
 % Number of conditions
 p.nConditions = 2;
 
 % Number of blocks
-p.numberOfBlocks = 5;
+p.numberOfBlocks = 1;
 
 %Number of trials per block per condition, the total number of trials will be (p.trialsPerCondit * p.nConditions * p.numberOfBlocks)
-p.trialsPerCondit = 20; 
+p.trialsPerCondit = 5; 
 
 p.trialsPerBlock = p.trialsPerCondit * p.nConditions;
 
