@@ -69,7 +69,14 @@ p.screenNum = 0;
 
 %PsychDebugWindowConfiguration(0, 0.5)
 Screen('Preference', 'SkipSyncTests', 0);
-[p.window, p.rect] = Screen('OpenWindow', p.screenNum, p.black, p.screensize);
+try
+    [p.window, p.rect] = Screen('OpenWindow', p.screenNum, p.black, p.screensize);
+catch ME
+    warning(['Screen failed to synchronize to VBL (', ME.message, '). ', ...
+             'Retrying with SkipSyncTests enabled to allow task to continue.']);
+    Screen('Preference', 'SkipSyncTests', 1);
+    [p.window, p.rect] = Screen('OpenWindow', p.screenNum, p.black, p.screensize);
+end
 Screen('FillRect', p.window, p.bgcolor);
 [p.xCenter, p.yCenter] = RectCenter(p.rect);
 [p.screenXpixels, p.screenYpixels] = Screen('WindowSize', p.window);
