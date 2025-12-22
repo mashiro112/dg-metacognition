@@ -68,7 +68,8 @@ p.screensize = [];
 p.screenNum = 0;
 
 %PsychDebugWindowConfiguration(0, 0.5)
-Screen('Preference', 'SkipSyncTests', 0);
+% Skip synchronization tests to avoid hard failures on systems without VBL sync.
+Screen('Preference', 'SkipSyncTests', 1);
 [p.window, p.rect] = Screen('OpenWindow', p.screenNum, p.black, p.screensize);
 Screen('FillRect', p.window, p.bgcolor);
 [p.xCenter, p.yCenter] = RectCenter(p.rect);
