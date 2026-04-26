@@ -204,6 +204,8 @@ for b = 1:nblocks
 
     save(p.filename,'DATA','metaRatings');
 end
+save(p.filename,'DATA');
+exportPerceptResults(p.filename, DATA, p);
 
 switch measureType
     case 'taskBelief'

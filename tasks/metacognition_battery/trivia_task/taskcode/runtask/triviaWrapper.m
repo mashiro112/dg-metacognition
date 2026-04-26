@@ -219,6 +219,9 @@ DrawUTF8(p.window,['实验结束！' '\n \n 感谢你的参与。'], 'center', '
 Screen('Flip', p.window);
 WaitSecs(2);
 
+save(p.filename, 'results');
+exportTriviaResults(p.filename, results, p);
+
 sca;       
 
 out = [];

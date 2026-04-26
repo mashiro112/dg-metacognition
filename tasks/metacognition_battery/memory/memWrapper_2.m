@@ -9,6 +9,14 @@ KbName('UnifyKeyNames');
 PsychJavaTrouble()      
 KbCheck;
 
+memDir = fileparts(mfilename('fullpath'));
+generalDir = fullfile(memDir, '..', 'general_functions');
+addpath(generalDir);
+dataDir = fullfile(memDir, 'data');
+if ~exist(dataDir, 'dir')
+    mkdir(dataDir);
+end
+
 if IsWin
     addpath([pwd '\functions']);
 else
@@ -61,30 +69,30 @@ mem_instructions(wPtr, p, roundNum);
 
 [results m] = memTest(p.subID, wPtr, rect, p.studyListOrder(1), p.studyListOrder(1) + i, p.studyTimeOrder(1), p, roundNum);
 m.fileName=['memExpData' p.subID(1) '_' num2str(roundNum) '.mat']; %was curly brackets subID for ALL FOUR
-cd data
-save(m.fileName, 'results', 'p', 'm');
-cd ..
+memoryFile = fullfile(dataDir, m.fileName);
+save(memoryFile, 'results', 'p', 'm');
+exportMemoryResults(memoryFile, results, p, roundNum);
 
 roundNum = 2;
 [results m] = memTest(p.subID, wPtr, rect, p.studyListOrder(2), p.studyListOrder(2) + i, p.studyTimeOrder(2), p, roundNum);
 m.fileName=['memExpData' p.subID(1) '_' num2str(roundNum) '.mat'];
-cd data
-save(m.fileName, 'results', 'p', 'm');
-cd ..
+memoryFile = fullfile(dataDir, m.fileName);
+save(memoryFile, 'results', 'p', 'm');
+exportMemoryResults(memoryFile, results, p, roundNum);
 
 roundNum = 3;
 [results m] = memTest(p.subID, wPtr, rect, p.studyListOrder(3), p.studyListOrder(3) + i, p.studyTimeOrder(3), p, roundNum);
 m.fileName=['memExpData' p.subID(1) '_' num2str(roundNum) '.mat'];
-cd data
-save(m.fileName,'results', 'p', 'm');
-cd ..
+memoryFile = fullfile(dataDir, m.fileName);
+save(memoryFile,'results', 'p', 'm');
+exportMemoryResults(memoryFile, results, p, roundNum);
 
 roundNum = 4;
 [results m] = memTest(p.subID, wPtr, rect, p.studyListOrder(4), p.studyListOrder(4) + i, p.studyTimeOrder(4), p, roundNum);
 m.fileName=['memExpData' p.subID(1) '_' num2str(roundNum) '.mat'];
-cd data
-save(m.fileName,'results', 'p', 'm');
-cd ..
+memoryFile = fullfile(dataDir, m.fileName);
+save(memoryFile,'results', 'p', 'm');
+exportMemoryResults(memoryFile, results, p, roundNum);
 
 Screen('CloseAll');
 ShowCursor;
