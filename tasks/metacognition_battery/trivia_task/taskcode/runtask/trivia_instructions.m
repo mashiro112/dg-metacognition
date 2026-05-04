@@ -15,14 +15,12 @@ while j <= length(p.instruction_text)
     DrawUTF8(window,[pg{j}], 'center', 'center');
     Screen('Flip',window);
     WaitSecs(.5);
-    KbWait();
-   
-    
-    [k s key] = KbCheck();
-    switch KbName(key)
-        case 'ESCAPE', exitNow = 1; break;
+    keyName = ptbWaitForKey({'ESCAPE', 'LeftArrow', 'space', 'Space'});
+
+    switch lower(keyName)
+        case 'escape', exitNow = 1; break;
         
-        case 'LeftArrow'
+        case 'leftarrow'
             if j > 1, j=j-1; end
             
         case 'space'

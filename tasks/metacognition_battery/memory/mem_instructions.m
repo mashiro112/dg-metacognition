@@ -79,12 +79,11 @@ while j <= length(pg)
     [nx ny] = DrawUTF8(window,pg{j},sx,sy,0,wrapat);
     DrawUTF8(window,nextpg{j},sx,ny);
     Screen('Flip',window);
-    KbWait(keyboardNumber);
+    keyName = ptbWaitForKey({exitKey, 'LeftArrow', 'space', 'Space', 'RightArrow'});
     
     waitTime(j) = .5;
     
-    [k s key] = KbCheck(keyboardNumber);
-    switch KbName(key)
+    switch keyName
         case exitKey, exitNow = 1; break;
         
         case 'LeftArrow'

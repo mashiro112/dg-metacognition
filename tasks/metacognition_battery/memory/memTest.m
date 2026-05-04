@@ -63,12 +63,12 @@ if roundNum == 1
         FlushEvents;
         trialComplete = false;
         while ~trialComplete
-            [k respTime keyCode] = KbCheck();
-            if strcmp(KbName(keyCode),'LeftArrow') | strcmp(KbName(keyCode),'RightArrow')
+            [k, respTime, keyName] = ptbCheckKey({'LeftArrow', 'RightArrow'});
+            if strcmpi(keyName,'LeftArrow') || strcmpi(keyName,'RightArrow')
                 trialComplete = true;
             end
         end
-        response = KbName(keyCode);
+        response = keyName;
         rt = respTime - vbl;
         
         % show confirmation of response
@@ -149,15 +149,15 @@ for i = 1:size(m.wordLists,1)
     FlushEvents;
     trialComplete = false;
     while ~trialComplete
-        [k respTime keyCode] = KbCheck();
-        if strcmp(KbName(keyCode),'LeftArrow') | strcmp(KbName(keyCode),'RightArrow')
+        [k, respTime, keyName] = ptbCheckKey({'LeftArrow', 'RightArrow', 'ESCAPE'});
+        if strcmpi(keyName,'LeftArrow') || strcmpi(keyName,'RightArrow')
             trialComplete = true;
-        elseif strcmp(KbName(keyCode),'ESCAPE')
+        elseif strcmpi(keyName,'ESCAPE')
             Screen('CloseAll')
             return
         end
     end
-    response = KbName(keyCode);
+    response = keyName;
     rt = respTime - vbl;
     
     % show confirmation of response

@@ -7,12 +7,17 @@ function forcePTBCompatibilityMode()
 
 try
     Screen('Preference', 'SkipSyncTests', 2);
-    Screen('Preference', 'VisualDebugLevel', 1);
-    Screen('Preference', 'Verbosity', 1);
-    Screen('Preference', 'VBLTimeStampingMode', -1);
 catch
-    % If Psychtoolbox is not loaded yet, callers will fail later with the
-    % original PTB error. This helper should never mask that root cause.
+end
+
+try
+    Screen('Preference', 'VisualDebugLevel', 1);
+catch
+end
+
+try
+    Screen('Preference', 'Verbosity', 1);
+catch
 end
 
 try

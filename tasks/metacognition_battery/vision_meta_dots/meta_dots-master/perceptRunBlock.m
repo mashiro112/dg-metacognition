@@ -46,14 +46,14 @@ while nreversals < staircase_reversal && i_trial < ntrials
     start_secs = GetSecs;
     secs = start_secs;
     while ~trialComplete & (secs - start_secs) < p.times.dots
-        [k respTime keyCode] = KbCheck();
-        if strcmp(KbName(keyCode),'LeftArrow') | strcmp(KbName(keyCode),'RightArrow')
+        [k, respTime, keyName] = ptbCheckKey({'LeftArrow', 'RightArrow', 'ESCAPE'});
+        if strcmpi(keyName,'LeftArrow') || strcmpi(keyName,'RightArrow') || strcmpi(keyName,'ESCAPE')
             trialComplete = true;
-            if strcmp(KbName(keyCode),'LeftArrow')
+            if strcmpi(keyName,'LeftArrow')
                 key = 1;
-            elseif strcmp(KbName(keyCode),'RightArrow')
+            elseif strcmpi(keyName,'RightArrow')
                 key = 2;
-            elseif strcmp(KbName(keyCode),'ESCAPE')
+            elseif strcmpi(keyName,'ESCAPE')
                 Screen('CloseAll')
                 return
             end
@@ -95,14 +95,14 @@ while nreversals < staircase_reversal && i_trial < ntrials
     
     while ~trialComplete
         FlushEvents;
-        [k respTime keyCode] = KbCheck();
-        if strcmp(KbName(keyCode),'LeftArrow') | strcmp(KbName(keyCode),'RightArrow')
+        [k, respTime, keyName] = ptbCheckKey({'LeftArrow', 'RightArrow', 'ESCAPE'});
+        if strcmpi(keyName,'LeftArrow') || strcmpi(keyName,'RightArrow') || strcmpi(keyName,'ESCAPE')
             trialComplete = true;
-            if strcmp(KbName(keyCode),'LeftArrow')
+            if strcmpi(keyName,'LeftArrow')
                 key = 1;
-            elseif strcmp(KbName(keyCode),'RightArrow')
+            elseif strcmpi(keyName,'RightArrow')
                 key = 2;
-            elseif strcmp(KbName(keyCode),'ESCAPE')
+            elseif strcmpi(keyName,'ESCAPE')
                 Screen('CloseAll')
                 return
             end

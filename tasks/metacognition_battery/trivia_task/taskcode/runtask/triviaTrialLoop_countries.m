@@ -52,19 +52,19 @@ t = Screen(p.window, 'Flip');
 FlushEvents;
     trialComplete = false;
     while ~trialComplete
-        [k respTime keyCode] = KbCheck();
-        if strcmp(KbName(keyCode),'LeftArrow') | strcmp(KbName(keyCode),'RightArrow')
+        [k, respTime, keyName] = ptbCheckKey({'LeftArrow', 'RightArrow', 'ESCAPE'});
+        if strcmpi(keyName,'LeftArrow') || strcmpi(keyName,'RightArrow')
             trialComplete = true;
             
             RT = 1000.*(respTime - t);
-        elseif strcmp(KbName(keyCode),'ESCAPE')
+        elseif strcmpi(keyName,'ESCAPE')
             Screen('CloseAll')
             RT = 0;
             return
         end
     end
     
-response = KbName(keyCode);
+response = keyName;
 
 Screen('TextSize',p.window,40);  
 DrawUTF8(p.window, '你认为哪个国家的面积更大？', 'center', 150, p.textColor);
