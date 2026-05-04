@@ -37,9 +37,7 @@ p.filename = [dataDir p.filename];
 
 %% instruction texts
 
-p.instruction_text{1} = ['在本任务中，你将针对不同的食物和国家做出判断。\n', ...
-                      ' 例如，判断两个国家中哪一个的经济水平更高（以人均国内生产总值衡量），\n'...
-                      ' 以及判断两种食物中哪一种热量更高。\n'...
+p.instruction_text{1} = ['在本任务中，你将判断两种食物中哪一种热量更高。\n', ...
                       ' 每次试次都请尽量又快又准地使用左右方向键做出决定，\n'...
                       ' 然后评估自己对该决定的信心程度。\n\n按下空格键继续。\n\n'];
 
@@ -80,13 +78,16 @@ Screen('FillRect', p.window, p.bgcolor);
 
 %% Task Parameters
 p.totalNumPracticeTrial = 2;
-% Number of conditions
-p.nConditions = 2;
+% Active trivia conditions. 1 = countries/GDP, 2 = food/calories.
+p.activeConditions = 2;
+
+% Number of active conditions
+p.nConditions = numel(p.activeConditions);
 
 % Number of blocks
 p.numberOfBlocks = 1;
 
-%Number of trials per block per condition, the total number of trials will be (p.trialsPerCondit * p.nConditions * p.numberOfBlocks)
+%Number of trials per block per active condition, the total number of trials will be (p.trialsPerCondit * p.nConditions * p.numberOfBlocks)
 p.trialsPerCondit = 5; 
 
 p.trialsPerBlock = p.trialsPerCondit * p.nConditions;

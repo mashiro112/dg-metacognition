@@ -9,12 +9,17 @@ step_level = results.step_level;
 
 
 %% Vector with list of conditions
-condition_vector = repmat([1;p.nConditions], p.totalNumPracticeTrial/2,1);
+if isfield(p, 'activeConditions')
+    activeConditions = p.activeConditions(:);
+else
+    activeConditions = (1:p.nConditions)';
+end
+condition_vector = repmat(activeConditions, p.totalNumPracticeTrial/numel(activeConditions), 1);
 condition_vector = Shuffle(condition_vector); %condition 1=countries, 2=food
 results.ConditionVectors = condition_vector';
 
 %%
-results.condition_counter = [0 0];
+results.condition_counter = zeros(1, max(condition_vector));
 
 %% run the block
 
