@@ -119,8 +119,8 @@ t=Screen('Flip', p.frame.ptr);
 
 feedback = 1;
 conf = 0;
-ntrials = Inf;
-staircase_reversal = 8;
+ntrials = 20;
+staircase_reversal = Inf;
 stepsize = 4;
 adapt  = 1;
 start_x = round(.5*p.stim.REF); % start at REF+50%REF
