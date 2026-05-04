@@ -4,14 +4,12 @@ function memWrapper(screenSize, sID)
 AssertOpenGL;
 %screenSize = input('screen? 1=full, 2=test, 3=alt ')
 %screenSize = 2;
-Screen('Preference', 'SkipSyncTests', 0);
-KbName('UnifyKeyNames');
-PsychJavaTrouble()      
-KbCheck;
-
 memDir = fileparts(mfilename('fullpath'));
 generalDir = fullfile(memDir, '..', 'general_functions');
 addpath(generalDir);
+forcePTBCompatibilityMode();
+PsychJavaTrouble()
+KbCheck;
 
 if IsWin
     addpath([pwd '\functions']);
@@ -19,7 +17,7 @@ else
     addpath([pwd '/functions']);
 end
 
-olddebuglevel = Screen('Preference', 'VisualDebugLevel', 3);
+olddebuglevel = Screen('Preference', 'VisualDebugLevel', 1);
 
 %get params for experiment
 %p = getExpParams;

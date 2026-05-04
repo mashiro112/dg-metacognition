@@ -14,6 +14,13 @@ function [window,keyboardNumber,wRect,midW,midH] = openScreen(windowPtrOrScreenN
 % 11/20/07 BM wrote it.
 
 %% open window
+functionDir = fileparts(mfilename('fullpath'));
+generalDir = fullfile(functionDir, '..', '..', 'general_functions');
+if exist(generalDir, 'dir')
+    addpath(generalDir);
+end
+forcePTBCompatibilityMode();
+
 if ~exist('windowPtrOrScreenNumber','var') || isempty(windowPtrOrScreenNumber)
     windowPtrOrScreenNumber = max(Screen('Screens'));
 end

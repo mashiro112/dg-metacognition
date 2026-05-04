@@ -5,8 +5,11 @@ AssertOpenGL;
 %screenSize = input('screen? 1=full, 2=test, 3=alt ')
 % screenSize = 3;
 
-KbName('UnifyKeyNames');
-PsychJavaTrouble()      
+memDir = fileparts(mfilename('fullpath'));
+generalDir = fullfile(memDir, '..', 'general_functions');
+addpath(generalDir);
+forcePTBCompatibilityMode();
+PsychJavaTrouble()
 KbCheck;
 
 if IsWin
@@ -15,7 +18,7 @@ else
     addpath([pwd '/functions']);
 end
 
-olddebuglevel = Screen('Preference', 'VisualDebugLevel', 3);
+olddebuglevel = Screen('Preference', 'VisualDebugLevel', 1);
 
 %get params for experiment
 %p = getExpParams;

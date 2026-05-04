@@ -4,12 +4,16 @@ function perceptWrapper(sID, measureType)
 
 
 clc
-addpath('mypsychtoolbox')
 
 baseDir = fileparts(mfilename('fullpath'));
+myPsychtoolboxDir = fullfile(baseDir, 'mypsychtoolbox');
+if exist(myPsychtoolboxDir, 'dir')
+    addpath(myPsychtoolboxDir)
+end
+
 generalDir = fullfile(baseDir, '..', '..', 'general_functions');
 addpath(generalDir);
-KbName('UnifyKeyNames');
+forcePTBCompatibilityMode();
 PsychJavaTrouble()
 %% Parameters
 p = perceptGetParams(sID);

@@ -2,8 +2,14 @@ function p = triviaGetParams(inArg)
 % Params for trivia metacognition task
 % GM 2019
 
+triviaDir = fileparts(mfilename('fullpath'));
+generalDir = fullfile(triviaDir, '..', '..', '..', 'general_functions');
+if exist(generalDir, 'dir')
+    addpath(generalDir);
+end
+
 %% Load Mat files
-Screen('Preference', 'SkipSyncTests', 2);
+forcePTBCompatibilityMode();
 p.list_countries = load('list_countries_complete.mat');
 p.list_food = load('list_food_complete.mat');
 
@@ -67,7 +73,7 @@ p.screenNum = 0;
 
 %PsychDebugWindowConfiguration(0, 0.5)
 % Skip synchronization tests to avoid hard failures on systems without VBL sync.
-Screen('Preference', 'SkipSyncTests', 2);
+forcePTBCompatibilityMode();
 [p.window, p.rect] = Screen('OpenWindow', p.screenNum, p.black, p.screensize);
 Screen('FillRect', p.window, p.bgcolor);
 [p.xCenter, p.yCenter] = RectCenter(p.rect);

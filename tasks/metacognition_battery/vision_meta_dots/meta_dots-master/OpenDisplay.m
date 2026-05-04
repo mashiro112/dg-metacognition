@@ -1,6 +1,12 @@
 function [window] = OpenDisplay(subscreen,color)
 % OpenDisplay - Easy open of the display using Psychtoolbox's Screen
 
+baseDir = fileparts(mfilename('fullpath'));
+generalDir = fullfile(baseDir, '..', '..', 'general_functions');
+if exist(generalDir, 'dir')
+    addpath(generalDir);
+end
+
 AssertOpenGL;
 scr.Screens = Screen('Screens');
 scr.screenNumber = max(scr.Screens);
@@ -17,9 +23,7 @@ if numel(subscreen)==2
     [wh]=Screen('Rect', scr.screenNumber);
     subscreen = RectAlign(subscreen,[wh(3:4)-wh(1:2)],'rctm');
 end
-Screen('Preference', 'Verbosity', 1);
-Screen('Preference', 'VBLTimeStampingMode', -1);
-Screen('Preference', 'SkipSyncTests', 0);
+forcePTBCompatibilityMode();
 window = struct;
 
 % kPsychNeedFastOffscreenWindows
@@ -28,11 +32,13 @@ global EXPERIMENT
 try
     if ~EXPERIMENT.DEBUG
         kPNFOW = kPsychNeedFastOffscreenWindows;
-        Screen('Preference', 'SkipSyncTests', 1);
+        forcePTBCompatibilityMode();
     end
 catch 
     EXPERIMENT.DEBUG = 1 ;
 end
+
+forcePTBCompatibilityMode();
 
 if numel(subscreen)==0
     % Open whole screen display
