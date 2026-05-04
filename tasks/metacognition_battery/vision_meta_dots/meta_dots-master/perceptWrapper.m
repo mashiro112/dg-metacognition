@@ -55,7 +55,7 @@ DrawUTF8(p.frame.ptr, ['欢迎参加本实验！' newline newline ...
     '按下空格键以了解任务内容！'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(1);
-WaitAnyPress(KbName('space'));
+ptbWaitForKey({'space', 'Space'});
 
 %% Example stimul i
 
@@ -65,7 +65,7 @@ DrawUTF8(p.frame.ptr,['屏幕上会出现两个圆圈，每个圆圈里都有一
     '请按下空格键继续。'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(2);
-WaitAnyPress(KbName('space'));
+ptbWaitForKey({'space', 'Space'});
 
 DrawUTF8(p.frame.ptr,'下面是一些示例刺激', 'center', 'center');
 Screen('Flip', p.frame.ptr);
@@ -102,12 +102,12 @@ DrawUTF8(p.frame.ptr,['任务的第一部分是选择哪个圆圈包含的点数
     '请按下空格键继续。'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(2);
-WaitAnyPress(KbName('space'));
+ptbWaitForKey({'space', 'Space'});
 
 DrawUTF8(p.frame.ptr,['练习开始！' newline newline '按下空格键开始'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(0.5);
-WaitAnyPress(KbName('space'));
+ptbWaitForKey({'space', 'Space'});
 
 Screen('FrameOval',p.frame.ptr,p.white,p.stim.rectL,p.stim.pen_width);
 Screen('FrameOval',p.frame.ptr,p.white,p.stim.rectR,p.stim.pen_width);
@@ -140,7 +140,7 @@ DrawUTF8(p.frame.ptr, ['现在我们来练习如何使用信心量表。\n\n当�
     '请按下空格键继续。'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(0.5);
-WaitAnyPress(KbName('space'));
+ptbWaitForKey({'space', 'Space'});
 
 feedback = 0;
 conf = 1;
@@ -181,7 +181,7 @@ DrawUTF8(p.frame.ptr, ['接下来请完成 8 个区块，每个区块 25 个试�
     '准备好后请按下空格键开始……'], 'center', 'center');
 Screen('Flip', p.frame.ptr);
 WaitSecs(0.5);
-WaitAnyPress(KbName('space'));
+ptbWaitForKey({'space', 'Space'});
 nblocks = 1;
 feedback = 0;
 conf = 1;
@@ -203,7 +203,7 @@ for b = 1:nblocks
         '准备好后按下空格键开始下一段……'], 'center', 'center');
     Screen('Flip', p.frame.ptr);
     WaitSecs(0.5);
-    WaitAnyPress(KbName('space'));
+    ptbWaitForKey({'space', 'Space'});
     DATA(b).results = results;
 
     save(p.filename,'DATA','metaRatings');
