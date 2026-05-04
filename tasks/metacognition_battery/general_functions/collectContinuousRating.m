@@ -29,8 +29,6 @@ wrappedLines = wrapPromptText(prompt, wrapAt);
 
 Screen('TextColor', windowPtr, [255 255 255]);
 
-keys = [KbName('LeftArrow') KbName('RightArrow') KbName('Space')];
-
 halfWidth = widthPx / 2;
 max_x = center(1) + halfWidth;
 min_x = center(1) - halfWidth;
@@ -48,22 +46,19 @@ start_time = GetSecs;
 confirmed = false;
 while ~confirmed
     WaitSecs(0.01);
-    [~, response_time, keyCode] = KbCheck;
-    if sum(keyCode) == 1
-        direction = find(keyCode(keys));
-        if direction == 1
-            xpos = xpos - 8;
-        elseif direction == 2
-            xpos = xpos + 8;
-        elseif direction == 3
-            confirmed = true;
-        end
+    [~, response_time, keyName] = ptbCheckKey({'LeftArrow', 'RightArrow', 'space', 'Space'});
+    if strcmpi(keyName, 'LeftArrow')
+        xpos = xpos - 8;
+    elseif strcmpi(keyName, 'RightArrow')
+        xpos = xpos + 8;
+    elseif strcmpi(keyName, 'space')
+        confirmed = true;
+    end
 
-        if xpos > max_x
-            xpos = max_x;
-        elseif xpos < min_x
-            xpos = min_x;
-        end
+    if xpos > max_x
+        xpos = max_x;
+    elseif xpos < min_x
+        xpos = min_x;
     end
 
     Screen('FillRect', windowPtr, [0 0 0]);
@@ -132,12 +127,7 @@ function drawWrappedUTF8(windowPtr, wrappedLines, rect, startY)
     lineHeight = 28;
     for i_line = 1:numel(wrappedLines)
         [centerX, ~] = RectCenter(rect);
-        try
-            bbox = Screen('TextBounds', windowPtr, wrappedLines{i_line});
-            approxWidth = bbox(3) - bbox(1);
-        catch
-            approxWidth = length(wrappedLines{i_line}) * 12;
-        end
+        approxWidth = length(wrappedLines{i_line}) * 12;
         x = centerX - (approxWidth / 2);
         y = startY + ((i_line - 1) * lineHeight);
         DrawUTF8(windowPtr, wrappedLines{i_line}, x, y, [255 255 255]);
