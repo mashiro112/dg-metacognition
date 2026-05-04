@@ -24,7 +24,7 @@ if isstring(rightLabel)
 end
 
 % Split the prompt into wrapped UTF-8 lines so DrawUTF8 can render reliably
-wrapAt = 120;
+wrapAt = 34;
 wrappedLines = wrapPromptText(prompt, wrapAt);
 
 Screen('TextColor', windowPtr, [255 255 255]);
@@ -37,7 +37,7 @@ xpos = center(1);
 
 arrowheight = arrowWidthPx * 2;
 rect = Screen('Rect', windowPtr);
-promptY = center(2) + yOffset - 120;
+promptY = center(2) + yOffset - 230;
 ticks = linspace(min_x, max_x, 6);
 tickLabels = {'20%','40%','60%','80%'};
 tickLabelPositions = ticks(2:5);

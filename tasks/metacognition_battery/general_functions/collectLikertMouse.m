@@ -1,8 +1,8 @@
 function [response, RT] = collectLikertMouse(windowPtr, prompt, anchors)
-% collectLikertMouse Present a 7-point Likert scale and collect a key press (1-7).
+% collectLikertMouse Present a 7-point Likert scale and collect key 1-7.
 
 if nargin < 3 || isempty(anchors)
-    anchors = {'完全没有','几乎没有','有一点','中等程度','比较多','很多','非常多'};
+    anchors = {'Not at all','Almost none','A little','Moderate','Quite a bit','A lot','Very much'};
 end
 
 KbName('UnifyKeyNames');
@@ -14,56 +14,78 @@ centerY = screenY/2;
 startX = screenX*0.15;
 endX = screenX*0.85;
 xPositions = linspace(startX, endX, numel(anchors));
-boxWidth = (endX-startX)/(numel(anchors))*0.9;
-boxHeight = 90;
+boxWidth = 60;
+boxHeight = 50;
 boxes = nan(numel(anchors), 4);
+promptLines = wrapLikertText(prompt, 34);
 
 for i = 1:numel(anchors)
-    boxes(i,:) = CenterRectOnPointd([0 0 boxWidth boxHeight], xPositions(i), centerY+70);
+    boxes(i,:) = CenterRectOnPointd([0 0 boxWidth boxHeight], xPositions(i), centerY+60);
 end
 
 start_time = GetSecs;
 response = NaN;
 while isnan(response)
-    Screen('FillRect', windowPtr, [0 0 0]);
-    DrawUTF8(windowPtr, prompt, 'center', centerY-80, [255 255 255]);
-    for i = 1:numel(anchors)
-        Screen('FrameRect', windowPtr, [255 255 255], boxes(i,:), 2);
-        try
-            bbox = Screen('TextBounds', windowPtr, anchors{i});
-            textW = bbox(3) - bbox(1);
-            textH = bbox(4) - bbox(2);
-        catch
-            textW = length(anchors{i}) * 14;
-            textH = 24;
-        end
-        textX = boxes(i,1) + (boxWidth - textW) / 2;
-        textY = boxes(i,2) + (boxHeight - textH) / 2;
-        DrawUTF8(windowPtr, anchors{i}, textX, textY, [255 255 255]);
-    end
+    drawLikertScreen(windowPtr, promptLines, anchors, boxes, xPositions, startX, endX, centerY, NaN);
     Screen('Flip', windowPtr);
 
     WaitSecs(0.01);
-    [~, ~, keyCode] = KbCheck;
+    try
+        [~, ~, keyCode] = KbCheck(-1);
+    catch
+        [~, ~, keyCode] = KbCheck;
+    end
     keyIdx = find(keyCode(numericKeys), 1);
     if ~isempty(keyIdx)
         response = keyIdx;
         RT = GetSecs - start_time;
-        Screen('FillRect', windowPtr, [0 0 0]);
-        DrawUTF8(windowPtr, prompt, 'center', centerY-80, [255 255 255]);
-        Screen('FrameRect', windowPtr, [255 0 0], boxes(response,:), 4);
-        try
-            bbox = Screen('TextBounds', windowPtr, anchors{response});
-            textW = bbox(3) - bbox(1);
-            textH = bbox(4) - bbox(2);
-        catch
-            textW = length(anchors{response}) * 14;
-            textH = 24;
-        end
-        textX = boxes(response,1) + (boxWidth - textW) / 2;
-        textY = boxes(response,2) + (boxHeight - textH) / 2;
-        DrawUTF8(windowPtr, anchors{response}, textX, textY, [255 0 0]);
+        drawLikertScreen(windowPtr, promptLines, anchors, boxes, xPositions, startX, endX, centerY, response);
         Screen('Flip', windowPtr);
         WaitSecs(0.25);
     end
+end
+
+end
+
+function drawLikertScreen(windowPtr, promptLines, anchors, boxes, xPositions, startX, endX, centerY, selected)
+Screen('FillRect', windowPtr, [0 0 0]);
+Screen('TextSize', windowPtr, 28);
+drawLikertLines(windowPtr, promptLines, centerY-170, [255 255 255]);
+
+for i = 1:numel(anchors)
+    if isequal(i, selected)
+        Screen('FrameRect', windowPtr, [255 0 0], boxes(i,:), 4);
+        DrawUTF8(windowPtr, num2str(i), xPositions(i)-6, centerY+48, [255 0 0]);
+    else
+        Screen('FrameRect', windowPtr, [255 255 255], boxes(i,:), 2);
+        DrawUTF8(windowPtr, num2str(i), xPositions(i)-6, centerY+48, [255 255 255]);
+    end
+end
+
+Screen('TextSize', windowPtr, 22);
+DrawUTF8(windowPtr, anchors{1}, startX-35, centerY+115, [255 255 255]);
+DrawUTF8(windowPtr, anchors{4}, 'center', centerY+115, [255 255 255]);
+DrawUTF8(windowPtr, anchors{7}, endX-35, centerY+115, [255 255 255]);
+Screen('TextSize', windowPtr, 28);
+end
+
+function lines = wrapLikertText(text, wrapAt)
+text = char(text);
+rawLines = regexp(text, '\n', 'split');
+lines = {};
+for i = 1:numel(rawLines)
+    current = rawLines{i};
+    while length(current) > wrapAt
+        lines{end+1} = current(1:wrapAt); %#ok<AGROW>
+        current = current(wrapAt+1:end);
+    end
+    lines{end+1} = current; %#ok<AGROW>
+end
+end
+
+function drawLikertLines(windowPtr, lines, startY, color)
+lineHeight = 34;
+for i = 1:numel(lines)
+    DrawUTF8(windowPtr, lines{i}, 'center', startY + (i-1)*lineHeight, color);
+end
 end
