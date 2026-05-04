@@ -15,7 +15,14 @@ while j <= length(p.instruction_text)
     DrawUTF8(window,[pg{j}], 'center', 'center');
     Screen('Flip',window);
     WaitSecs(.5);
-    keyName = ptbWaitForKey({'ESCAPE', 'LeftArrow', 'space', 'Space'});
+    keyName = '';
+    while isempty(keyName)
+        [~, ~, candidate] = ptbCheckKey({'space', 'Space', 'LeftArrow', 'ESCAPE'});
+        if any(strcmpi(candidate, {'space', 'Space', 'LeftArrow', 'ESCAPE'}))
+            keyName = candidate;
+        end
+        WaitSecs(0.01);
+    end
 
     switch lower(keyName)
         case 'escape', exitNow = 1; break;
