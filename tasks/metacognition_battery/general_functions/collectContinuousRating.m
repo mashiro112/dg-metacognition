@@ -40,7 +40,11 @@ arrowheight = arrowWidthPx * 2;
 rect = Screen('Rect', windowPtr);
 promptY = center(2) + yOffset - 250;
 ticks = linspace(min_x, max_x, 6);
-tickLabels = {'20%','40%','60%','80%'};
+if contains(leftLabel, '名') || contains(rightLabel, '名')
+    tickLabels = {'20名','40名','60名','80名'};
+else
+    tickLabels = {'20%','40%','60%','80%'};
+end
 tickLabelPositions = ticks(2:5);
 
 start_time = GetSecs;
@@ -127,11 +131,8 @@ function drawWrappedUTF8(windowPtr, wrappedLines, rect, startY)
 
     lineHeight = 36;
     for i_line = 1:numel(wrappedLines)
-        [centerX, ~] = RectCenter(rect);
-        approxWidth = length(wrappedLines{i_line}) * 12;
-        x = centerX - (approxWidth / 2);
         y = startY + ((i_line - 1) * lineHeight);
-        DrawUTF8(windowPtr, wrappedLines{i_line}, x, y, [255 255 255]);
+        DrawUTF8(windowPtr, wrappedLines{i_line}, 'center', y, [255 255 255]);
     end
 end
 

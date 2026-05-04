@@ -9,12 +9,6 @@ keyName = '';
 secs = NaN;
 keyCode = [];
 
-try
-    KbReleaseWait(-1);
-catch
-    KbReleaseWait();
-end
-
 while isempty(keyName)
     [~, secs, candidate, keyCode] = ptbCheckKey(validKeys);
     if ~isempty(candidate) && (isempty(validKeys) || any(strcmpi(candidate, validKeys)))
@@ -23,10 +17,6 @@ while isempty(keyName)
     WaitSecs(0.01);
 end
 
-try
-    KbReleaseWait(-1);
-catch
-    KbReleaseWait();
-end
+WaitSecs(0.15);
 
 end

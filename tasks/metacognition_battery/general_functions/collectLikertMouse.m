@@ -2,7 +2,7 @@ function [response, RT] = collectLikertMouse(windowPtr, prompt, anchors)
 % collectLikertMouse Present a 7-point Likert scale and collect key 1-7.
 
 if nargin < 3 || isempty(anchors)
-    anchors = {'Not at all','Almost none','A little','Moderate','Quite a bit','A lot','Very much'};
+    anchors = {'完全没有','几乎没有','有一点','中等程度','比较多','很多','非常多'};
 end
 
 KbName('UnifyKeyNames');
