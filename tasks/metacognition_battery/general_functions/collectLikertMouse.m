@@ -8,7 +8,7 @@ end
 KbName('UnifyKeyNames');
 numericKeys = [KbName('1!') KbName('2@') KbName('3#') KbName('4$') KbName('5%') KbName('6^') KbName('7&')];
 
-Screen('TextSize', windowPtr, 28);
+Screen('TextSize', windowPtr, 24);
 [screenX, screenY] = Screen('WindowSize', windowPtr);
 centerY = screenY/2;
 startX = screenX*0.15;
@@ -49,7 +49,7 @@ end
 
 function drawLikertScreen(windowPtr, promptLines, anchors, boxes, xPositions, startX, endX, centerY, selected)
 Screen('FillRect', windowPtr, [0 0 0]);
-Screen('TextSize', windowPtr, 28);
+Screen('TextSize', windowPtr, 24);
 drawLikertLines(windowPtr, promptLines, centerY-170, [255 255 255]);
 
 for i = 1:numel(anchors)
@@ -66,7 +66,7 @@ Screen('TextSize', windowPtr, 22);
 DrawUTF8(windowPtr, anchors{1}, startX-35, centerY+115, [255 255 255]);
 DrawUTF8(windowPtr, anchors{4}, 'center', centerY+115, [255 255 255]);
 DrawUTF8(windowPtr, anchors{7}, endX-35, centerY+115, [255 255 255]);
-Screen('TextSize', windowPtr, 28);
+Screen('TextSize', windowPtr, 24);
 end
 
 function lines = wrapLikertText(text, wrapAt)
@@ -84,7 +84,7 @@ end
 end
 
 function drawLikertLines(windowPtr, lines, startY, color)
-lineHeight = 34;
+lineHeight = 36;
 for i = 1:numel(lines)
     DrawUTF8(windowPtr, lines{i}, 'center', startY + (i-1)*lineHeight, color);
 end

@@ -13,6 +13,14 @@ function varargout = DrawUTF8(win, str, varargin)
     % Convert to UTF-8 encoded uint8 payload
     utf8Bytes = unicode2native(str, 'UTF-8');
 
+    % DrawFormattedText's 8th optional argument is line spacing. Use a
+    % roomier default for multi-line Chinese prompts unless callers set it.
+    if numel(varargin) < 8
+        varargin{8} = 1.5;
+    elseif isempty(varargin{8})
+        varargin{8} = 1.5;
+    end
+
     % Forward to DrawFormattedText using the encoded payload
     [varargout{1:nargout}] = DrawFormattedText(win, utf8Bytes, varargin{:});
 end

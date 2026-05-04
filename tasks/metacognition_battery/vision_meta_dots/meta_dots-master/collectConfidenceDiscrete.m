@@ -1,8 +1,7 @@
-function [conf, RT]=ConfidenceScaleDiscrete(window,p)
+function [conf, RT]=collectConfidenceDiscrete(window,p)
 
 curWindow = window;
 center = [p.mx p.my];
-keys = [KbName('LeftArrow') KbName('RightArrow') KbName('Space')];
 
 %% Initialise VAS scale
 VASwidth=p.stim.VASwidth_inPixels;
@@ -25,16 +24,14 @@ index = ceil(rand*vas_points);
 xpos = center(1) + steps_x(index);
 while (secs - start_time) < p.times.confDuration_inSecs;
     WaitSecs(.07);
-    [keyIsDown,response_time,keyCode] = KbCheck(-1);
+    [keyIsDown,response_time,keyName] = ptbCheckKey({'LeftArrow', 'RightArrow', 'space', 'Space'});
     secs = GetSecs;
-    if sum(keyCode)==1
-        direction = find(keyCode(keys));
-        
-        if direction == 1
+    if keyIsDown
+        if strcmpi(keyName, 'LeftArrow')
             xpos = xpos - (range_x./(length(steps_x)-1));
-        elseif direction == 2
+        elseif strcmpi(keyName, 'RightArrow')
             xpos = xpos + (range_x./(length(steps_x)-1));
-        elseif direction == 3
+        elseif strcmpi(keyName, 'space')
             deadline = 1;
             break
         end

@@ -27,6 +27,7 @@ end
 wrapAt = 34;
 wrappedLines = wrapPromptText(prompt, wrapAt);
 
+Screen('TextSize', windowPtr, 24);
 Screen('TextColor', windowPtr, [255 255 255]);
 
 halfWidth = widthPx / 2;
@@ -37,7 +38,7 @@ xpos = center(1);
 
 arrowheight = arrowWidthPx * 2;
 rect = Screen('Rect', windowPtr);
-promptY = center(2) + yOffset - 230;
+promptY = center(2) + yOffset - 250;
 ticks = linspace(min_x, max_x, 6);
 tickLabels = {'20%','40%','60%','80%'};
 tickLabelPositions = ticks(2:5);
@@ -124,7 +125,7 @@ end
 function drawWrappedUTF8(windowPtr, wrappedLines, rect, startY)
 % drawWrappedUTF8 Render wrapped lines centered with UTF-8 drawing.
 
-    lineHeight = 28;
+    lineHeight = 36;
     for i_line = 1:numel(wrappedLines)
         [centerX, ~] = RectCenter(rect);
         approxWidth = length(wrappedLines{i_line}) * 12;
