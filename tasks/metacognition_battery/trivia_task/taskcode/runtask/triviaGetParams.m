@@ -11,8 +11,13 @@ end
 %% Load Mat files
 forcePTBCompatibilityMode();
 p.list_countries = load('list_countries_complete.mat');
-p.list_food = load('list_food_cn_complete.mat');
-p.list_food_practice = load('list_food_cn_practice.mat');
+foodListFile = 'list_food_cn_complete.mat';
+practiceListFile = 'list_food_cn_practice.mat';
+if ~exist(foodListFile, 'file') || ~exist(practiceListFile, 'file')
+    generate_food_cn_list();
+end
+p.list_food = load(foodListFile);
+p.list_food_practice = load(practiceListFile);
 p.foodImageDir = './Food_CN/';
 
 %%  Subject Parameters
