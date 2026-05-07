@@ -30,6 +30,10 @@ wrappedLines = wrapPromptText(prompt, wrapAt);
 Screen('TextSize', windowPtr, 24);
 Screen('TextColor', windowPtr, [255 255 255]);
 
+rect = Screen('Rect', windowPtr);
+screenWidth = rect(3) - rect(1);
+widthPx = min(widthPx * 1.25, screenWidth * 0.85);
+moveStepPx = 4;
 halfWidth = widthPx / 2;
 max_x = center(1) + halfWidth;
 min_x = center(1) - halfWidth;
@@ -37,8 +41,7 @@ range_x = max_x - min_x;
 xpos = center(1);
 
 arrowheight = arrowWidthPx * 2;
-rect = Screen('Rect', windowPtr);
-promptY = center(2) + yOffset - 250;
+promptY = center(2) + yOffset - 300;
 ticks = linspace(min_x, max_x, 6);
 if contains(leftLabel, '名') || contains(rightLabel, '名')
     tickLabels = {'20名','40名','60名','80名'};
@@ -53,9 +56,9 @@ while ~confirmed
     WaitSecs(0.01);
     [~, response_time, keyName] = ptbCheckKey({'LeftArrow', 'RightArrow', 'space', 'Space'});
     if strcmpi(keyName, 'LeftArrow')
-        xpos = xpos - 8;
+        xpos = xpos - moveStepPx;
     elseif strcmpi(keyName, 'RightArrow')
-        xpos = xpos + 8;
+        xpos = xpos + moveStepPx;
     elseif strcmpi(keyName, 'space')
         confirmed = true;
     end

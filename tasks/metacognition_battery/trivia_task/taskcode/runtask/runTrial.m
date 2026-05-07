@@ -13,28 +13,24 @@ if condition==1
     word_right = p.list_countries.list_countries_complete(pos_2, 1);
     stringText = '哪个国家在 2010-2017 年间的人均 GDP 更高？';
 elseif condition==2
-    first_im = strcat('./Food/', p.list_food.list_food_complete{pos_1, 2});
+    first_im = fullfile(p.foodImageDir, p.list_food.list_food_complete{pos_1, 2});
     left_image = imread(first_im); im_left = Screen('MakeTexture',p.window, left_image);
-    second_im = strcat('./Food/', p.list_food.list_food_complete{pos_2, 2});
+    second_im = fullfile(p.foodImageDir, p.list_food.list_food_complete{pos_2, 2});
     right_image = imread(second_im); im_right = Screen('MakeTexture', p.window, right_image);
     
     word_left = p.list_food.list_food_complete(pos_1, 1);
     word_right = p.list_food.list_food_complete(pos_2, 1);
-    stringText = '哪种食物的热量更高？';
+    stringText = '哪种食物每 100 克的热量更高？';
 end
 
 word_left = char(word_left);
 word_right = char(word_right);
 
 
-% Text Position
-textRect_left = Screen('TextBounds', p.window, word_left);
-textWidth_left = textRect_left(3);
-textXpos_left = p.xposition_left - (textWidth_left/3);
-
-textRect_right = Screen('TextBounds', p.window, word_right);
-textWidth_right = textRect_right(3);
-textXpos_right = p.xposition_right - (textWidth_right/3);
+% Text Position. Avoid Screen('TextBounds') for UTF-8 Chinese text because
+% some Psychtoolbox/Windows setups crash on that call.
+textXpos_left = estimateCenteredTextX(word_left, p.xposition_left, p.countriesTextSize);
+textXpos_right = estimateCenteredTextX(word_right, p.xposition_right, p.countriesTextSize);
 
 
 Screen('TextSize',p.window,p.textSize);
@@ -161,4 +157,13 @@ elseif responseNum == 2
 end
 end
 
+end
+
+function xPos = estimateCenteredTextX(textValue, centerX, textSize)
+textValue = char(textValue);
+charCodes = double(textValue);
+nWide = sum(charCodes > 127);
+nNarrow = numel(charCodes) - nWide;
+estimatedWidth = textSize * (nWide + 0.55 * nNarrow);
+xPos = centerX - estimatedWidth / 2;
 end

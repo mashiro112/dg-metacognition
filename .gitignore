@@ -4,3 +4,9 @@
 .Ruserdata
 /osf
 .DS_Store
+food_pic_508/
+food_pic_508.7z
+tasks/metacognition_battery/trivia_task/taskcode/runtask/triviaData/
+tasks/metacognition_battery/vision_meta_dots/perceptData/
+tasks/metacognition_battery/trivia_task/taskcode/runtask/food_cn_generation_report.mat
+tasks/metacognition_battery/trivia_task/taskcode/runtask/food_cn_validation_report.mat

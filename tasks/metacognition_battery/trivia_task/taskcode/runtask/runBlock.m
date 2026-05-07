@@ -16,7 +16,6 @@ else
 end
 condition_vector = repmat(activeConditions, p.trialsPerBlock/numel(activeConditions), 1);
 condition_vector = Shuffle(condition_vector); %condition 1=countries, 2=food
-results.ConditionVectors = condition_vector';
 
 %%
 results.condition_counter = zeros(1, max(condition_vector));
@@ -27,7 +26,8 @@ for n=1:p.trialsPerBlock
     trial_counter = trial_counter + 1;
     
     %% initialize trial parameters
-    condition = results.ConditionVectors(trial_counter); % 1=countries, 2=food
+    condition = condition_vector(n); % 1=countries, 2=food
+    results.ConditionVectors(trial_counter) = condition;
     differenceTarget = results.S(condition).Signal;
     this_stepsize = results.stepsize(condition, step_level(condition));
     
@@ -106,6 +106,9 @@ for n=1:p.trialsPerBlock
     %% log the last pair
       
     results.last_pair{condition} = this_pair;   
+    if condition == 2
+        results = log_food_category_pair(results, p, this_pair);
+    end
     
     
     %% Shuffle the pair, otherwise the highest is always first.
@@ -179,4 +182,21 @@ for n=1:p.trialsPerBlock
     
     save(p.filename, 'results');
 end
+end
+
+function results = log_food_category_pair(results, p, this_pair)
+categories = nan(1, 2);
+for iItem = 1:2
+    value = p.list_food.list_food_complete{this_pair(iItem), 4};
+    if isnumeric(value)
+        categories(iItem) = value;
+    else
+        categories(iItem) = str2double(char(value));
+    end
+end
+
+if ~isfield(results, 'food_category_pair_history')
+    results.food_category_pair_history = {};
+end
+results.food_category_pair_history{end+1} = sort(categories);
 end

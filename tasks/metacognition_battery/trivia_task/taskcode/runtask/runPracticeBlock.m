@@ -30,6 +30,7 @@ for n=1:p.totalNumPracticeTrial
     condition = results.ConditionVectors(trial_counter); % 1=countries, 2=food
     differenceTarget = results.S(condition).Signal;
     this_stepsize = results.stepsize(condition, step_level(condition));
+    fixedPracticePair = false;
     
     if condition == 1
         results.condition_counter(1) = results.condition_counter(1)+1;
@@ -40,11 +41,18 @@ for n=1:p.totalNumPracticeTrial
         
     end
     
-    [this_pair, results] = find_difference_pair(condition, differenceTarget, p, results, trial_counter);
+    if condition == 2 && isfield(p, 'practicePairs') && results.condition_counter(2) <= size(p.practicePairs, 1)
+        this_pair = p.practicePairs(results.condition_counter(2), :);
+        differenceTarget = p.diff_square{condition}(this_pair(1), this_pair(2));
+        results.interp_trials(trial_counter) = 0;
+        fixedPracticePair = true;
+    else
+        [this_pair, results] = find_difference_pair(condition, differenceTarget, p, results, trial_counter);
+    end
     
     %% exception to slightly randomize difference target is the same as the last trial
     
-    if results.condition_counter(1) > 1 && results.condition_counter(2) > 1 
+    if ~fixedPracticePair && results.condition_counter(1) > 1 && results.condition_counter(2) > 1 
         
         if  this_pair == results.last_pair{condition}
             
@@ -62,7 +70,7 @@ for n=1:p.totalNumPracticeTrial
     %% check if the stimulus has been used more than some threshold, if so randomize 
     
     
-    if condition == 1
+    if ~fixedPracticePair && condition == 1
         
         %keep pseudo-randomly incrementing until a non-repeat is found
         while results.countries_repeat_list(this_pair(1)) > results.repeat_threshold ...
@@ -73,7 +81,7 @@ for n=1:p.totalNumPracticeTrial
             
         end
         
-    elseif condition == 2
+    elseif ~fixedPracticePair && condition == 2
         
         while results.foods_repeat_list(this_pair(1)) > results.repeat_threshold ...
                 || results.foods_repeat_list(this_pair(2)) > results.repeat_threshold

@@ -80,13 +80,35 @@ WaitSecs(1);
 blockNumber = 1;
 trivia_instructions(p.window, p);
 
-[results, trial_counter] = runPracticeBlock(p,confidence, feedback, blockNumber, results, trial_counter);
+pPractice = p;
+pPractice.list_food.list_food_complete = p.list_food_practice.list_food_practice_complete;
+pPractice.list_food.numList = p.list_food_practice.practiceNumList;
+practiceCalories = round(pPractice.list_food.numList(:,1));
+practiceDiffSquare = [];
+for r = 1:length(practiceCalories)
+    for c = 1:length(practiceCalories)
+        practiceDiffSquare(r,c) = practiceCalories(r) - practiceCalories(c);
+    end
+end
+pPractice.diff_square{2} = practiceDiffSquare;
+pPractice.foods_repeat_list = zeros(1,length(practiceCalories));
+pPractice.totalNumPracticeTrial = 3;
+pPractice.practicePairs = [1 length(practiceCalories); ...
+    2 length(practiceCalories)-1; ...
+    3 length(practiceCalories)-2];
+
+results.foods_repeat_list = pPractice.foods_repeat_list;
+
+[results, trial_counter] = runPracticeBlock(pPractice,confidence, feedback, blockNumber, results, trial_counter);
 
 
 DrawUTF8(p.window,['太好了！如有任何问题，请向实验员提问。'...
                             '\n \n 否则按任意键继续。'], 'center', 'center', p.textColor);
 Screen('Flip', p.window);
+waitForKeyRelease(1.5);
 KbWait;
+waitForKeyRelease(1.5);
+WaitSecs(0.2);
 
 %% initialize a real results
 
@@ -126,18 +148,18 @@ offset = p.stim.VASoffset_inPixels;
 switch measureType
     case 'taskBelief'
         [metaRatings.taskBeliefPre, metaRatings.taskBeliefPreRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
-            ['在趣味知识问答测试中，你需要判断两份食物中哪一份的热量更高。' newline ...
+            ['在趣味知识问答测试中，你需要判断两份食物中哪一份每 100 克的热量更高。' newline ...
             '本任务只包含食物卡路里判断，共有 ' num2str(p.totalNumTrial) ' 轮正式测试。' newline newline ...
-            '请预估你在趣味知识问答测试中答对的总百分比(1–100%)：'], ...
+            '请预估你在趣味知识问答测试中答对的总百分比(1–100%)：' newline newline], ...
             '答对1%', '答对100%', 1, 100, arrowWidth, offset);
         results.taskBeliefPre = metaRatings.taskBeliefPre;
         results.taskBeliefPreRT = metaRatings.taskBeliefPreRT;
     case 'socialRank'
         [metaRatings.socialRankPre, metaRatings.socialRankPreRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
-            ['在趣味知识问答测试中，你需要判断两份食物中哪一份的热量更高。' newline ...
+            ['在趣味知识问答测试中，你需要判断两份食物中哪一份每 100 克的热量更高。' newline ...
             '本任务只包含食物卡路里判断，共有 ' num2str(p.totalNumTrial) ' 轮正式测试。' newline newline ...
             '想象一下：现在需要将100位与你身份相似的同龄人，按照语义知识领域能力强弱进行排序，' newline newline ...
-            '你认为自己在这100人中能排在第几名(1-100)？'], ...
+            '你认为自己在这100人中能排在第几名(1-100)？' newline newline], ...
             '第1名', '第100名', 1, 100, arrowWidth, offset);
         [metaRatings.socialManipCheckPre, metaRatings.socialManipCheckPreRT] = collectLikertMouse(p.window, ...
             '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较。请按 1-7 选择。');
@@ -167,7 +189,9 @@ for blockNumber = 1 : p.numberOfBlocks
     string = ['第 ' num2str(blockNumber) ' 段，共 ' num2str(p.numberOfBlocks) ' 段'];
     DrawUTF8(p.window,[string '\n \n 按任意键继续。'], 'center', 'center', p.textColor);
     Screen('Flip', p.window);
-    KbWait;
+    waitForKeyRelease(1.5);
+    ptbWaitForKey({'space', 'Space', 'LeftArrow', 'RightArrow'});
+    waitForKeyRelease(1.5);
     
     WaitSecs(.5);
 
@@ -177,16 +201,16 @@ end
 switch measureType
     case 'taskBelief'
         [metaRatings.taskBeliefPost, metaRatings.taskBeliefPostRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
-            ['在趣味知识问答测试中，你判断了两份食物中哪一份的热量更高。' newline newline ...
-            '请预估你在趣味知识问答测试中答对了的总百分比（1–100%）：'], ...
+            ['在趣味知识问答测试中，你判断了两份食物中哪一份每 100 克的热量更高。' newline newline ...
+            '请预估你在趣味知识问答测试中答对了的总百分比（1–100%）：' newline newline], ...
             '答对1%', '答对100%', 1, 100, arrowWidth, offset);
         results.taskBeliefPost = metaRatings.taskBeliefPost;
         results.taskBeliefPostRT = metaRatings.taskBeliefPostRT;
     case 'socialRank'
         [metaRatings.socialRankPost, metaRatings.socialRankPostRT] = collectContinuousRating(p.window, ratingCenter, scaleWidth, ...
-            ['在趣味知识问答测试中，你判断了两份食物中哪一份的热量更高。' newline newline ...
+            ['在趣味知识问答测试中，你判断了两份食物中哪一份每 100 克的热量更高。' newline newline ...
             '想象一下：现在需要将100位与你身份相似的同龄人，按照语义知识领域能力强弱进行排序，' newline newline ...
-            '你认为自己在这100人中能排在第几名(1-100)？'], ...
+            '你认为自己在这100人中能排在第几名(1-100)？' newline newline], ...
             '第1名', '第100名', 1, 100, arrowWidth, offset);
         [metaRatings.socialManipCheckPost, metaRatings.socialManipCheckPostRT] = collectLikertMouse(p.window, ...
             '刚刚回答的过程中，我有把自己置于同群体中进行想象，并进行了比较。请按 1-7 选择。');
@@ -216,7 +240,18 @@ sca;
 
 out = [];
 
- end
+end
+
+function waitForKeyRelease(maxWaitSecs)
+startTime = GetSecs;
+while GetSecs - startTime < maxWaitSecs
+    keyIsDown = KbCheck;
+    if ~keyIsDown
+        return
+    end
+    WaitSecs(0.01);
+end
+end
 
 
 
